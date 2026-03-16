@@ -37,7 +37,7 @@ public class TaiKhoan {
     private String hoTen;
 
     @Column(name = "vai_tro", length = 20)
-    private String vaiTro; // HOC_VIEN, GIA_SU, QUAN_TRI
+    private String vaiTro; // HOC_VIEN, GIA_SU
 
     @Column(name = "trang_thai", length = 20)
     private String trangThai; // HOAT_DONG, KHOA
