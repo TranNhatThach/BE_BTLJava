@@ -1,5 +1,6 @@
 package com.btljava.GiaSu.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class TaiKhoan {
     private String email;
 
     @Column(name = "mat_khau_ma_hoa", nullable = false, length = 255)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String matKhauMaHoa;
 
     @Column(name = "so_dien_thoai", length = 20)

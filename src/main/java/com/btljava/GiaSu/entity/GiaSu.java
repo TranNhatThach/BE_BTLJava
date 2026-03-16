@@ -34,6 +34,7 @@ public class GiaSu {
 
     @Column(name = "nam_sinh")
     private Integer namSinh;
+    
 
     @Column(name = "so_nam_kinh_nghiem")
     private Integer soNamKinhNghiem;

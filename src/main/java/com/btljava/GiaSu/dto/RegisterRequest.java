@@ -22,4 +22,8 @@ public class RegisterRequest {
 
     @NotBlank(message = "Password không được để trống")
     private String password;
+
+    @NotBlank(message = "không được để trống")
+    private String confirmPassword;
+
 }
