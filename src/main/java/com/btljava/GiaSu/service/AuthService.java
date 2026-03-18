@@ -22,6 +22,14 @@ public class AuthService {
     private final JwtService jwtService;
 
     public AuthResponse register(RegisterRequest request) {
+
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            return AuthResponse.builder()
+                    .message("Mật khẩu xác nhận không khớp!")
+                    .success(false)
+                    .build();
+        }
+
         if (taiKhoanRepository.existsByEmail(request.getEmail())) {
             return AuthResponse.builder()
                     .message("Email đã tồn tại!")
@@ -29,19 +37,25 @@ public class AuthService {
                     .build();
         }
 
+        String role = request.getRole();
+        if (role == null || (!role.equals("HOC_VIEN") && !role.equals("GIA_SU"))) {
+            role = "HOC_VIEN";
+        }
+
         TaiKhoan taiKhoan = TaiKhoan.builder()
                 .email(request.getEmail())
                 .hoTen(request.getUsername())
                 .matKhauMaHoa(passwordEncoder.encode(request.getPassword()))
                 .soDienThoai(request.getPhone())
-                .trangThai("HOAT_DONG") // Giả sử tài khoản được kích hoạt ngay
-                .vaiTro(request.getRole()) // Mặc định là học viên, có thể thêm logic lựa chọn vai trò sau
+                .viTri(request.getAddress())
+                .trangThai("HOAT_DONG")
+                .vaiTro(role)
                 .build();
 
         taiKhoanRepository.save(taiKhoan);
 
         return AuthResponse.builder()
-                .message("Đăng ký thành công!Vui lòng đăng nhập .")
+                .message("Đăng ký thành công!")
                 .success(true)
                 .build();
     }
@@ -70,6 +84,7 @@ public class AuthService {
                 .message("Login success")
                 .success(true)
                 .token(token)
+                .userId(taiKhoan.getMaTaiKhoan())
                 .username(taiKhoan.getHoTen())
                 .role(taiKhoan.getVaiTro())
                 .build();

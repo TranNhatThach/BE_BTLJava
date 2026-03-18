@@ -11,7 +11,8 @@ CREATE TABLE Tai_Khoan (
     ho_ten NVARCHAR(100),
     vai_tro NVARCHAR(20),
     trang_thai NVARCHAR(20),
-    ngay_tao DATETIME DEFAULT GETDATE()
+    ngay_tao DATETIME DEFAULT GETDATE(),
+    vi_tri NVARCHAR(255)
 );
 GO
 CREATE TABLE Gia_Su (
@@ -31,7 +32,6 @@ CREATE TABLE Hoc_Vien (
     ma_tai_khoan INT UNIQUE,
     lop_hoc NVARCHAR(50),
     truong_hoc NVARCHAR(100),
-    dia_chi NVARCHAR(255),
     vi_do FLOAT,
     kinh_do FLOAT,
     hinh_thuc_hoc_uu_tien NVARCHAR(50),
@@ -165,10 +165,10 @@ VALUES
 (4,'Nu','DH Su Pham','Su Pham Toan',1998,4);
 GO
 
-INSERT INTO Hoc_Vien (ma_tai_khoan, lop_hoc, truong_hoc, dia_chi, vi_do, kinh_do, hinh_thuc_hoc_uu_tien)
+INSERT INTO Hoc_Vien (ma_tai_khoan, lop_hoc, truong_hoc, vi_do, kinh_do, hinh_thuc_hoc_uu_tien)
 VALUES
-(1,'10','THPT Chu Van An','Ha Noi',21.0285,105.8542,'Hoc tai nha'),
-(2,'11','THPT Kim Lien','Ha Noi',21.0300,105.8500,'Online');
+(1,'10','THPT Chu Van An',21.0285,105.8542,'Hoc tai nha'),
+(2,'11','THPT Kim Lien',21.0300,105.8500,'Online');
 GO
 
 INSERT INTO Mon_Hoc (ten_mon, mo_ta)

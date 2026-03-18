@@ -45,4 +45,7 @@ public class TaiKhoan {
     @CreationTimestamp
     @Column(name = "ngay_tao", updatable = false)
     private LocalDateTime ngayTao;
+
+    @Column(name = "vi_tri",length = 225)
+    private String viTri;
 }

@@ -26,8 +26,8 @@ public class RegisterRequest {
     @NotBlank(message = "không được để trống")
     private String confirmPassword;
 
-    private String role;    // Thêm trường này
-    private String phone;   // Thêm trường này
-    private String address; // Thêm trường này
+    private String role;
+    private String phone;
+    private String address;
 
 }

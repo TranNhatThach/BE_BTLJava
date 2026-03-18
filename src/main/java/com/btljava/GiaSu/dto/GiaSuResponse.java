@@ -1,5 +1,6 @@
 package com.btljava.GiaSu.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-    private Integer userId;
+public class GiaSuResponse {
     private String username;
-    private String message;
-    private boolean success;
-    private String token;
-    private String role;
+    private String trinhDo;
+    private String monHoc;
+    private String viTri;
+    private String gioitinh;
+    private Double hocPhiMoiGio;
 }

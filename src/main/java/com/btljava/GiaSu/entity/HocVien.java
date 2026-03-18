@@ -29,9 +29,6 @@ public class HocVien {
     @Column(name = "truong_hoc", length = 100)
     private String truongHoc;
 
-    @Column(name = "dia_chi", length = 255)
-    private String diaChi;
-
     @Column(name = "vi_do")
     private Double viDo;
 
