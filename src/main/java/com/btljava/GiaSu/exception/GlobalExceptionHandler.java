@@ -45,9 +45,10 @@ public class GlobalExceptionHandler {
     // Bắt các lỗi linh tinh khác để Server không bao giờ sập
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAllExceptions(Exception ex) {
+        ex.printStackTrace(); // IN LỖI RA CONSOLE ĐỂ DEBUG
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 AuthResponse.builder()
-                        .message("Lỗi hệ thống: " + ex.getMessage())
+                        .message("Lỗi (" + ex.getClass().getSimpleName() + "): " + ex.getMessage())
                         .success(false)
                         .build()
         );

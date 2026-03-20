@@ -19,9 +19,9 @@ public class MonHoc {
     @Column(name = "ma_mon")
     private Integer maMon;
 
-    @Column(name = "ten_mon", length = 100)
+    @Column(name = "ten_mon", columnDefinition = "nvarchar(100)")
     private String tenMon;
 
-    @Column(name = "mo_ta", length = 255)
+    @Column(name = "mo_ta", columnDefinition = "nvarchar(255)")
     private String moTa;
 }

@@ -10,18 +10,23 @@ import java.util.List;
 
 @Repository
 public interface GiaSuMonHocRepository extends JpaRepository<GiaSuMonHoc, GiaSuMonHocId> {
-//    @Query("SELECT gsmh FROM GiaSuMonHoc gsmh " +
-//            "WHERE (:tenMon IS NULL OR LOWER(REPLACE(gsmh.monHoc.tenMon, ' ', '')) " +
-//            "LIKE LOWER(CONCAT('%', REPLACE(:tenMon, ' ', ''), '%'))) " +
-//            "AND (:trinhDo IS NULL OR LOWER(REPLACE(gsmh.trinhDo, ' ', '')) " +
-//            "LIKE LOWER(CONCAT('%', REPLACE(:trinhDo, ' ', ''), '%')))")
-//    List<GiaSuMonHoc> findByFilter(@Param("tenMon") String tenMon, @Param("trinhDo") String trinhDo);
+    List<GiaSuMonHoc> findByGiaSu_MaGiaSu(Integer maGiaSu);
 
+    // @Query("SELECT gsmh FROM GiaSuMonHoc gsmh " +
+    // "WHERE (:tenMon IS NULL OR LOWER(REPLACE(gsmh.monHoc.tenMon, ' ', '')) " +
+    // "LIKE LOWER(CONCAT('%', REPLACE(:tenMon, ' ', ''), '%'))) " +
+    // "AND (:trinhDo IS NULL OR LOWER(REPLACE(gsmh.trinhDo, ' ', '')) " +
+    // "LIKE LOWER(CONCAT('%', REPLACE(:trinhDo, ' ', ''), '%')))")
+    // List<GiaSuMonHoc> findByFilter(@Param("tenMon") String tenMon,
+    // @Param("trinhDo") String trinhDo);
 
     @Query("SELECT gsmh FROM GiaSuMonHoc gsmh " +
-            "WHERE (:tenMon IS NULL OR LOWER(REPLACE(gsmh.monHoc.tenMon, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:tenMon, ' ', ''), '%'))) " +
-            "AND (:trinhDo IS NULL OR LOWER(REPLACE(gsmh.trinhDo, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:trinhDo, ' ', ''), '%'))) " +
-            "AND (:viTri IS NULL OR LOWER(REPLACE(gsmh.giaSu.taiKhoan.viTri, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:viTri, ' ', ''), '%'))) " +
+            "WHERE (:tenMon IS NULL OR LOWER(REPLACE(gsmh.monHoc.tenMon, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:tenMon, ' ', ''), '%'))) "
+            +
+            "AND (:trinhDo IS NULL OR LOWER(REPLACE(gsmh.trinhDo, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:trinhDo, ' ', ''), '%'))) "
+            +
+            "AND (:viTri IS NULL OR LOWER(REPLACE(gsmh.giaSu.taiKhoan.viTri, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:viTri, ' ', ''), '%'))) "
+            +
             "AND (:minGia IS NULL OR gsmh.hocPhiMoiGio >= :minGia) " +
             "AND (:maxGia IS NULL OR gsmh.hocPhiMoiGio <= :maxGia)")
     List<GiaSuMonHoc> findByFilter(
@@ -31,6 +36,4 @@ public interface GiaSuMonHocRepository extends JpaRepository<GiaSuMonHoc, GiaSuM
             @Param("minGia") Double minGia,
             @Param("maxGia") Double maxGia);
 
-    // tạm thời chưa cập nhật tìm theo địa điểm khoảng giá
-    // vi SQL tạo sai thiếu mất địa chỉ cho tài khoản nên sập r :))
 }
