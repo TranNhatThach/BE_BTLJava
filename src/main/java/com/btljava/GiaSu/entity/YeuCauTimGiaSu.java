@@ -54,4 +54,7 @@ public class YeuCauTimGiaSu {
     @CreationTimestamp
     @Column(name = "ngay_tao", updatable = false)
     private LocalDateTime ngayTao;
+
+    @Column(name = "mo_ta", length = 300)
+    private String moTa;
 }

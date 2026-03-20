@@ -70,6 +70,7 @@ CREATE TABLE Yeu_Cau_Tim_Gia_Su (
     ngan_sach_max int,
     trang_thai NVARCHAR(50),
     ngay_tao DATETIME DEFAULT GETDATE(),
+    mo_ta NVARCHAR(MAX),
 
     FOREIGN KEY (ma_mon) REFERENCES Mon_Hoc(ma_mon),
     FOREIGN KEY (ma_hoc_vien) REFERENCES Hoc_Vien(ma_hoc_vien)

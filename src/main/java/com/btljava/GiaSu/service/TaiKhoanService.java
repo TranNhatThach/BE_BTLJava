@@ -58,13 +58,20 @@ public class TaiKhoanService {
         return null;
     }
 
-//    public TaiKhoanResponse update(Integer id, TaiKhoan updated) {
-//        TaiKhoan tk = getById(id);
-//
-//        tk.setHoTen(updated.getHoTen());
-//        tk.setSoDienThoai(updated.getSoDienThoai());
-//        tk.setViTri(updated.getViTri());
-//
-//        return taiKhoanRepository.save(tk);
-//    }
+    public TaiKhoan updateTaiKhoan(String email, TaiKhoan updated) {
+        TaiKhoan tk = taiKhoanRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản với email: " + email));
+
+        if (updated.getHoTen() != null) {
+            tk.setHoTen(updated.getHoTen());
+        }
+        if (updated.getSoDienThoai() != null) {
+            tk.setSoDienThoai(updated.getSoDienThoai());
+        }
+        if (updated.getViTri() != null) {
+            tk.setViTri(updated.getViTri());
+        }
+
+        return taiKhoanRepository.save(tk);
+    }
 }

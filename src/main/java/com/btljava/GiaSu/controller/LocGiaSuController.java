@@ -17,6 +17,7 @@ public class LocGiaSuController {
 
     @GetMapping("/search")
     public ResponseEntity<List<GiaSuResponse>> searchGiaSu(
+            @RequestParam(required = false) String usename,
             @RequestParam(required = false) String tenMon,
             @RequestParam(required = false) String trinhDo,
             @RequestParam(required = false) String viTri,

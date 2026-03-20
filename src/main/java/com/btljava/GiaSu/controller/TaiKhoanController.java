@@ -20,11 +20,10 @@ public class TaiKhoanController {
         return ResponseEntity.ok(taiKhoanService.getById(id));
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<TaiKhoan> updateTaiKhoan(
-//            @PathVariable Integer id,
-//            @RequestBody TaiKhoan updated
-//    ) {
-//        return ResponseEntity.ok(taiKhoanService.update(id, updated));
-//    }
+    @PutMapping("/{username}")
+    public ResponseEntity<TaiKhoan> updateTaiKhoan(
+            @PathVariable String username,
+            @RequestBody TaiKhoan updated) {
+        return ResponseEntity.ok(taiKhoanService.updateTaiKhoan(username, updated));
+    }
 }
