@@ -3,12 +3,14 @@ package com.btljava.GiaSu.service;
 import com.btljava.GiaSu.dto.AuthResponse;
 import com.btljava.GiaSu.dto.LoginRequest;
 import com.btljava.GiaSu.dto.RegisterRequest;
+import com.btljava.GiaSu.entity.GiaSu;
+import com.btljava.GiaSu.entity.HocVien;
 import com.btljava.GiaSu.entity.TaiKhoan;
+import com.btljava.GiaSu.repository.GiaSuRepository;
+import com.btljava.GiaSu.repository.HocVienRepository;
 import com.btljava.GiaSu.repository.TaiKhoanRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class AuthService {
 
     private final TaiKhoanRepository taiKhoanRepository;
+    private final GiaSuRepository giaSuRepository;
+    private final HocVienRepository hocVienRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
@@ -54,6 +58,18 @@ public class AuthService {
 
         taiKhoanRepository.save(taiKhoan);
 
+        if ("GIA_SU".equals(role)) {
+            GiaSu giaSu = GiaSu.builder()
+                    .taiKhoan(taiKhoan)
+                    .build();
+            giaSuRepository.save(giaSu);
+        } else if ("HOC_VIEN".equals(role)) {
+            HocVien hocVien = HocVien.builder()
+                    .taiKhoan(taiKhoan)
+                    .build();
+            hocVienRepository.save(hocVien);
+        }
+
         return AuthResponse.builder()
                 .message("Đăng ký thành công!")
                 .success(true)
@@ -84,7 +100,6 @@ public class AuthService {
                 .message("Login success")
                 .success(true)
                 .token(token)
-                .userId(taiKhoan.getMaTaiKhoan())
                 .username(taiKhoan.getHoTen())
                 .role(taiKhoan.getVaiTro())
                 .build();

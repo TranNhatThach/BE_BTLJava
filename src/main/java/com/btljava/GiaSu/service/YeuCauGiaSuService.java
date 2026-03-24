@@ -16,19 +16,24 @@ import java.util.List;
 public class YeuCauGiaSuService {
     @Autowired
     private YeuCauTimGiaSuRepository repo;
-    
+
     @Autowired
     private HocVienRepository hocVienRepository;
-    
+
     @Autowired
     private MonHocRepository monHocRepository;
 
-    public YeuCauTimGiaSu luuBaiDang(YeuCauTimGiaSuRequest request){
+    public YeuCauTimGiaSu luuBaiDang(YeuCauTimGiaSuRequest request) {
         HocVien hocVien = hocVienRepository.findById(request.getMaHocVien())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy học viên với ID: " + request.getMaHocVien()));
-        MonHoc monHoc = monHocRepository.findById(request.getMaMon())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy môn học với ID: " + request.getMaMon()));
-        
+
+        MonHoc monHoc = monHocRepository.findByTenMon(request.getTenMon());
+        if (monHoc == null) {
+            monHoc = new MonHoc();
+            monHoc.setTenMon(request.getTenMon());
+            monHoc = monHocRepository.save(monHoc);
+        }
+
         YeuCauTimGiaSu yeuCau = new YeuCauTimGiaSu();
         yeuCau.setHocVien(hocVien);
         yeuCau.setMonHoc(monHoc);
@@ -39,11 +44,12 @@ public class YeuCauGiaSuService {
         yeuCau.setNganSachMin(request.getNganSachMin());
         yeuCau.setNganSachMax(request.getNganSachMax());
         yeuCau.setMoTa(request.getMoTa());
-        yeuCau.setTrangThai("Đang chờ duyệt");
-        
+        yeuCau.setTrangThai("CHỜ DUYỆT");
+
         return repo.save(yeuCau);
     }
-    public List<YeuCauTimGiaSu> layTatCa(){
+
+    public List<YeuCauTimGiaSu> layTatCa() {
         return repo.findAll();
     }
 }

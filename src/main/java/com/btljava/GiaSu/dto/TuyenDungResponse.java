@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class GiaSuMonHocRequest {
-    private String tenMon;
-    private String trinhDo;
-    private Integer hocPhiMoiGio;
+@Data
+public class TuyenDungResponse<T>{
+    private String message;
+    private String status;
+    private T data;
 }

@@ -49,8 +49,12 @@ public class LopHocService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy học viên"));
         GiaSu giaSu = giaSuRepository.findById(request.getMaGiaSu())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy gia sư"));
-        MonHoc monHoc = monHocRepository.findById(request.getMaMon())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy môn học"));
+        
+        MonHoc monHoc = null;
+        if (request.getMaMon() != null) {
+            monHoc = monHocRepository.findById(request.getMaMon())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy môn học"));
+        }
 
         YeuCauTimGiaSu yeuCau = null;
         if (request.getMaYeuCau() != null) {

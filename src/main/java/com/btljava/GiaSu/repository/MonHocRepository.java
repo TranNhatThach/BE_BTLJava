@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MonHocRepository extends JpaRepository<MonHoc, Integer> {
+    MonHoc findByTenMon(String tenMon);
 }

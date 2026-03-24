@@ -31,10 +31,15 @@ public class GiaSuMonHocService {
     public GiaSuMonHocResponse addMonHocToGiaSu(Integer maGiaSu, GiaSuMonHocRequest request) {
         GiaSu giaSu = giaSuRepository.findById(maGiaSu)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy gia sư với ID: " + maGiaSu));
-        MonHoc monHoc = monHocRepository.findById(request.getMaMon())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy môn học với ID: " + request.getMaMon()));
+                
+        MonHoc monHoc = monHocRepository.findByTenMon(request.getTenMon());
+        if (monHoc == null) {
+            monHoc = new MonHoc();
+            monHoc.setTenMon(request.getTenMon());
+            monHoc = monHocRepository.save(monHoc);
+        }
 
-        GiaSuMonHocId id = new GiaSuMonHocId(maGiaSu, request.getMaMon());
+        GiaSuMonHocId id = new GiaSuMonHocId(maGiaSu, monHoc.getMaMon());
         
         if (giaSuMonHocRepository.existsById(id)) {
             throw new RuntimeException("Gia sư đã đăng ký môn học này rồi");

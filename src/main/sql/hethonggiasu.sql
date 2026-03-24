@@ -149,6 +149,16 @@ CREATE TABLE Danh_Gia (
     FOREIGN KEY (ma_lop) REFERENCES Lop_Hoc(ma_lop)
 );
 GO
+CREATE TABLE Thong_Bao (
+    ma_thong_bao INT IDENTITY(1,1) PRIMARY KEY,
+    ma_tai_khoan INT NOT NULL,
+    noi_dung NVARCHAR(500) NOT NULL,
+    loai NVARCHAR(50),
+    da_doc BIT DEFAULT 0,
+    ngay_tao DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_ThongBao_TaiKhoan FOREIGN KEY (ma_tai_khoan) REFERENCES Tai_Khoan(ma_tai_khoan)
+);
+GO
 
 
 INSERT INTO Tai_Khoan (email, mat_khau_ma_hoa, so_dien_thoai, ho_ten, vai_tro, trang_thai)

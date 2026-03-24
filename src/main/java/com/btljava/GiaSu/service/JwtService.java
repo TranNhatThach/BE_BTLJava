@@ -1,6 +1,7 @@
 package com.btljava.GiaSu.service;
 
 import com.btljava.GiaSu.entity.TaiKhoan;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -20,6 +21,7 @@ public class JwtService {
     public String generateToken(TaiKhoan taiKhoan) {
         Map<String, Object> extraClaims = new HashMap<>();
         // Nhét vaiTro vào Token để Frontend không cần gọi API lần 2 vẫn biết user là ai
+        extraClaims.put("userId", taiKhoan.getMaTaiKhoan());
         extraClaims.put("role", taiKhoan.getVaiTro());
         extraClaims.put("hoTen", taiKhoan.getHoTen());
 
@@ -30,6 +32,24 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 giờ
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    // lấy id
+    public Integer extractUserId(String token) {
+        return extractAllClaims(token).get("userId", Integer.class);
+    }
+
+    // kiểm tra xem token hết hạn ch
+    public boolean isTokenValid(String token) {
+        return !extractAllClaims(token).getExpiration().before(new Date());
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Key getSignInKey() {

@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GiaSuResponse {
+public class GiaSuUngTuyenRequest {
     private Integer maGiaSu;
-    private String username;
-    private String trinhDo;
-    private String monHoc;
-    private String viTri;
-    private String gioitinh;
-    private Double hocPhiMoiGio;
+    private Integer maYeuCau;
+    private String loiNhan;
+    private Integer mucHocPhiDeXuat;
 }

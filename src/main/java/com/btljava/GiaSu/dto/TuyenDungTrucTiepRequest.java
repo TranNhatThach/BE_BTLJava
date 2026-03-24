@@ -3,9 +3,10 @@ package com.btljava.GiaSu.dto;
 import lombok.Data;
 
 @Data
-public class YeuCauTimGiaSuRequest {
+public class TuyenDungTrucTiepRequest {
+    private Integer maGiaSu;
+    private Integer maHocVien; 
     private String tenMon;
-    private Integer maHocVien;
     private String trinhDo;
     private String lichHocDuKien;
     private String hinhThuc;
@@ -13,4 +14,5 @@ public class YeuCauTimGiaSuRequest {
     private Integer nganSachMin;
     private Integer nganSachMax;
     private String moTa;
+    private String loiNhan; // A message to the tutor from the student
 }

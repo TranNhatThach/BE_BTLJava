@@ -24,43 +24,49 @@ public class TaiKhoanService {
         if ("GIA_SU".equals(tk.getVaiTro())) {
             GiaSu gs = giaSuRepository.findByTaiKhoan(tk);
 
-            return TaiKhoanResponse.builder()
+            TaiKhoanResponse.TaiKhoanResponseBuilder builder = TaiKhoanResponse.builder()
                     .maTaiKhoan(tk.getMaTaiKhoan())
                     .email(tk.getEmail())
                     .hoTen(tk.getHoTen())
                     .soDienThoai(tk.getSoDienThoai())
                     .vaiTro(tk.getVaiTro())
-                    .viTri(tk.getViTri())
+                    .viTri(tk.getViTri());
 
-                    .gioiTinh(gs.getGioiTinh())
-                    .truongDaiHoc(gs.getTruongDaiHoc())
-                    .chuyenNganh(gs.getChuyenNganh())
-                    .namSinh(gs.getNamSinh())
-                    .soNamKinhNghiem(gs.getSoNamKinhNghiem())
-                    .build();
+            if (gs != null) {
+                builder.gioiTinh(gs.getGioiTinh())
+                        .truongDaiHoc(gs.getTruongDaiHoc())
+                        .chuyenNganh(gs.getChuyenNganh())
+                        .namSinh(gs.getNamSinh())
+                        .soNamKinhNghiem(gs.getSoNamKinhNghiem());
+            }
+
+            return builder.build();
         }
         if ("HOC_VIEN".equals(tk.getVaiTro())) {
             HocVien hv = hocVienRepository.findByTaiKhoan(tk);
 
-            return TaiKhoanResponse.builder()
+            TaiKhoanResponse.TaiKhoanResponseBuilder builder = TaiKhoanResponse.builder()
                     .maTaiKhoan(tk.getMaTaiKhoan())
                     .email(tk.getEmail())
                     .hoTen(tk.getHoTen())
                     .soDienThoai(tk.getSoDienThoai())
                     .vaiTro(tk.getVaiTro())
-                    .viTri(tk.getViTri())
+                    .viTri(tk.getViTri());
 
-                    .lopHoc(hv.getLopHoc())
-                    .truongHoc(hv.getTruongHoc())
-                    .hinhThucHocUuTien(hv.getHinhThucHocUuTien())
-                    .build();
+            if (hv != null) {
+                builder.lopHoc(hv.getLopHoc())
+                        .truongHoc(hv.getTruongHoc())
+                        .hinhThucHocUuTien(hv.getHinhThucHocUuTien());
+            }
+
+            return builder.build();
         }
         return null;
     }
 
-    public TaiKhoan updateTaiKhoan(String email, TaiKhoan updated) {
-        TaiKhoan tk = taiKhoanRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản với email: " + email));
+    public TaiKhoanResponse updateTaiKhoan(Integer id, TaiKhoanResponse updated) {
+        TaiKhoan tk = taiKhoanRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản với email: " + id));
 
         if (updated.getHoTen() != null) {
             tk.setHoTen(updated.getHoTen());
@@ -71,7 +77,40 @@ public class TaiKhoanService {
         if (updated.getViTri() != null) {
             tk.setViTri(updated.getViTri());
         }
+        taiKhoanRepository.save(tk);
 
-        return taiKhoanRepository.save(tk);
+        if ("GIA_SU".equals(tk.getVaiTro())) {
+            GiaSu gs = giaSuRepository.findByTaiKhoan(tk);
+            if (gs == null) {
+                gs = new GiaSu();
+                gs.setTaiKhoan(tk);
+            }
+            if (updated.getGioiTinh() != null)
+                gs.setGioiTinh(updated.getGioiTinh());
+            if (updated.getTruongDaiHoc() != null)
+                gs.setTruongDaiHoc(updated.getTruongDaiHoc());
+            if (updated.getChuyenNganh() != null)
+                gs.setChuyenNganh(updated.getChuyenNganh());
+            if (updated.getNamSinh() != null)
+                gs.setNamSinh(updated.getNamSinh());
+            if (updated.getSoNamKinhNghiem() != null)
+                gs.setSoNamKinhNghiem(updated.getSoNamKinhNghiem());
+            giaSuRepository.save(gs);
+        } else if ("HOC_VIEN".equals(tk.getVaiTro())) {
+            HocVien hv = hocVienRepository.findByTaiKhoan(tk);
+            if (hv == null) {
+                hv = new HocVien();
+                hv.setTaiKhoan(tk);
+            }
+            if (updated.getLopHoc() != null)
+                hv.setLopHoc(updated.getLopHoc());
+            if (updated.getTruongHoc() != null)
+                hv.setTruongHoc(updated.getTruongHoc());
+            if (updated.getHinhThucHocUuTien() != null)
+                hv.setHinhThucHocUuTien(updated.getHinhThucHocUuTien());
+            hocVienRepository.save(hv);
+        }
+
+        return getById(id);
     }
 }

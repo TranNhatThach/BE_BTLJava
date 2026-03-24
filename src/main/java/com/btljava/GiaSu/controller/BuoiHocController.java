@@ -18,7 +18,7 @@ public class BuoiHocController {
     private final BuoiHocService buoiHocService;
 
     @GetMapping("/lop/{maLop}")
-    public ResponseEntity<List<BuoiHocDTO>> getByLop(@PathVariable Integer maLop) {
+    public ResponseEntity<List<BuoiHocDTO>> getByLop(@PathVariable("maLop") Integer maLop) {
         return ResponseEntity.ok(buoiHocService.getBuoiHocByLop(maLop));
     }
 
@@ -28,12 +28,12 @@ public class BuoiHocController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<BuoiHocDTO> updateStatus(@PathVariable Integer id, @RequestParam String status) {
+    public ResponseEntity<BuoiHocDTO> updateStatus(@PathVariable("id") Integer id, @RequestParam("status") String status) {
         return ResponseEntity.ok(buoiHocService.updateStatus(id, status));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBuoiHoc(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteBuoiHoc(@PathVariable("id") Integer id) {
         buoiHocService.deleteBuoiHoc(id);
         return ResponseEntity.noContent().build();
     }
