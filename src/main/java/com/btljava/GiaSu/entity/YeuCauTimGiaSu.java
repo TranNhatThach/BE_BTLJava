@@ -30,16 +30,16 @@ public class YeuCauTimGiaSu {
     @JoinColumn(name = "ma_hoc_vien", referencedColumnName = "ma_hoc_vien")
     private HocVien hocVien;
 
-    @Column(name = "trinh_do", length = 50)
+    @Column(name = "trinh_do", length = 50, columnDefinition = "nvarchar(50)")
     private String trinhDo;
 
-    @Column(name = "lich_hoc_du_kien", length = 255)
+    @Column(name = "lich_hoc_du_kien", length = 255, columnDefinition = "nvarchar(255)")
     private String lichHocDuKien;
 
-    @Column(name = "hinh_thuc", length = 50)
+    @Column(name = "hinh_thuc", length = 50, columnDefinition = "nvarchar(50)")
     private String hinhThuc;
 
-    @Column(name = "dia_diem", length = 255)
+    @Column(name = "dia_diem", length = 255, columnDefinition = "nvarchar(255)")
     private String diaDiem;
 
     @Column(name = "ngan_sach_min")
@@ -48,13 +48,13 @@ public class YeuCauTimGiaSu {
     @Column(name = "ngan_sach_max")
     private Integer nganSachMax;
 
-    @Column(name = "trang_thai", length = 50)
+    @Column(name = "trang_thai", length = 50, columnDefinition = "nvarchar(50)")
     private String trangThai;
 
     @CreationTimestamp
     @Column(name = "ngay_tao", updatable = false)
     private LocalDateTime ngayTao;
 
-    @Column(name = "mo_ta", length = 300)
+    @Column(name = "mo_ta", length = 300, columnDefinition = "nvarchar(300)")
     private String moTa;
 }

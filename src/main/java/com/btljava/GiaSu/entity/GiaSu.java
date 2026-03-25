@@ -23,18 +23,17 @@ public class GiaSu {
     @JoinColumn(name = "ma_tai_khoan", referencedColumnName = "ma_tai_khoan", unique = true)
     private TaiKhoan taiKhoan;
 
-    @Column(name = "gioi_tinh", length = 10)
+    @Column(name = "gioi_tinh", length = 10, columnDefinition = "nvarchar(10)")
     private String gioiTinh;
 
-    @Column(name = "truong_dai_hoc", length = 100)
+    @Column(name = "truong_dai_hoc", length = 100, columnDefinition = "nvarchar(100)")
     private String truongDaiHoc;
 
-    @Column(name = "chuyen_nganh", length = 100)
+    @Column(name = "chuyen_nganh", length = 100, columnDefinition = "nvarchar(100)")
     private String chuyenNganh;
 
     @Column(name = "nam_sinh")
     private Integer namSinh;
-    
 
     @Column(name = "so_nam_kinh_nghiem")
     private Integer soNamKinhNghiem;

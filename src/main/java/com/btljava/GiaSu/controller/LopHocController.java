@@ -69,7 +69,7 @@ public class LopHocController {
     @PostMapping
     public ResponseEntity<?> createLopHoc(
             @RequestBody LopHocRequest request,
-            @RequestHeader("Authorization") String authHeader) {
+            @RequestHeader(value = "Authorization", required = false) String authHeader){
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.badRequest().body("Token không hợp lệ");

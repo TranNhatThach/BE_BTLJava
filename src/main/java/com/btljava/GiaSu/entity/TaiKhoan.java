@@ -33,7 +33,7 @@ public class TaiKhoan {
     @Column(name = "so_dien_thoai", length = 20)
     private String soDienThoai;
 
-    @Column(name = "ho_ten", length = 100)
+    @Column(name = "ho_ten", length = 100, columnDefinition = "nvarchar(100)")
     private String hoTen;
 
     @Column(name = "vai_tro", length = 20)
@@ -46,6 +46,6 @@ public class TaiKhoan {
     @Column(name = "ngay_tao", updatable = false)
     private LocalDateTime ngayTao;
 
-    @Column(name = "vi_tri",length = 225)
+    @Column(name = "vi_tri", length = 225, columnDefinition = "nvarchar(225)")
     private String viTri;
 }

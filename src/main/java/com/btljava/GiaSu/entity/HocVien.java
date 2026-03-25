@@ -23,10 +23,10 @@ public class HocVien {
     @JoinColumn(name = "ma_tai_khoan", referencedColumnName = "ma_tai_khoan", unique = true)
     private TaiKhoan taiKhoan;
 
-    @Column(name = "lop_hoc", length = 50)
+    @Column(name = "lop_hoc", length = 50, columnDefinition = "nvarchar(50)")
     private String lopHoc;
 
-    @Column(name = "truong_hoc", length = 100)
+    @Column(name = "truong_hoc", length = 100, columnDefinition = "nvarchar(100)")
     private String truongHoc;
 
     @Column(name = "vi_do")
@@ -35,9 +35,9 @@ public class HocVien {
     @Column(name = "kinh_do")
     private Double kinhDo;
 
-    @Column(name = "hinh_thuc_hoc_uu_tien", length = 50)
+    @Column(name = "hinh_thuc_hoc_uu_tien", length = 50, columnDefinition = "nvarchar(50)")
     private String hinhThucHocUuTien;
 
-    @Column(name = "ghi_chu", length = 255)
+    @Column(name = "ghi_chu", length = 255, columnDefinition = "nvarchar(255)")
     private String ghiChu;
 }
