@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HocVienRepository extends JpaRepository<HocVien, Integer> {
     HocVien findByTaiKhoan(TaiKhoan taiKhoan);
+    java.util.Optional<HocVien> findByTaiKhoan_MaTaiKhoan(Integer maTaiKhoan);
 }

@@ -15,13 +15,10 @@ public interface GiaSuMonHocRepository extends JpaRepository<GiaSuMonHoc, GiaSuM
         List<GiaSuMonHoc> findByGiaSu_MaGiaSu(Integer maGiaSu);
 
         @Query("SELECT gsmh FROM GiaSuMonHoc gsmh " +
-                        "WHERE (:tenMon IS NULL OR LOWER(REPLACE(gsmh.monHoc.tenMon, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:tenMon, ' ', ''), '%'))) "
-                        +
+                        "WHERE (:tenMon IS NULL OR LOWER(gsmh.monHoc.tenMon) LIKE LOWER(CONCAT('%', :tenMon, '%'))) " +
                         "AND (:maGiaSu IS NULL OR gsmh.giaSu.maGiaSu = :maGiaSu) " +
-                        "AND (:trinhDo IS NULL OR LOWER(REPLACE(gsmh.trinhDo, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:trinhDo, ' ', ''), '%'))) "
-                        +
-                        "AND (:viTri IS NULL OR LOWER(REPLACE(gsmh.giaSu.taiKhoan.viTri, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:viTri, ' ', ''), '%'))) "
-                        +
+                        "AND (:trinhDo IS NULL OR LOWER(gsmh.trinhDo) LIKE LOWER(CONCAT('%', :trinhDo, '%'))) " +
+                        "AND (:viTri IS NULL OR LOWER(gsmh.giaSu.taiKhoan.viTri) LIKE LOWER(CONCAT('%', :viTri, '%'))) " +
                         "AND (:minGia IS NULL OR gsmh.hocPhiMoiGio >= :minGia) " +
                         "AND (:maxGia IS NULL OR gsmh.hocPhiMoiGio <= :maxGia)")
         Page<GiaSuMonHoc> findByFilter(

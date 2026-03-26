@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 @RestController
 @RequestMapping("/api/gia-su")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class LocGiaSuController {
 
     private final GiaSuService giaSuService;
@@ -32,5 +33,18 @@ public class LocGiaSuController {
         );
 
         return ResponseEntity.ok(ketQua);
+    }
+
+    @GetMapping("/{maGiaSu}")
+    public ResponseEntity<GiaSuResponse> getGiaSuById(@PathVariable("maGiaSu") Integer maGiaSu) {
+        Page<GiaSuResponse> ketQua = giaSuService.timKiemGiaSu(
+                null, null, null, null, null, maGiaSu, 0, 1
+        );
+        
+        if (ketQua.hasContent()) {
+            return ResponseEntity.ok(ketQua.getContent().get(0));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

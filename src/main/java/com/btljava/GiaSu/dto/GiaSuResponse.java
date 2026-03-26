@@ -17,4 +17,9 @@ public class GiaSuResponse {
     private String viTri;
     private String gioitinh;
     private Double hocPhiMoiGio;
+    private String truongDaiHoc;
+    private String chuyenNganh;
+    private Integer soNamKinhNghiem;
+    private Double diemDanhGia;
+    private Integer soHocVien;
 }

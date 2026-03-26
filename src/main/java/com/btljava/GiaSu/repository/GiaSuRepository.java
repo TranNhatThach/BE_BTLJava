@@ -12,4 +12,5 @@ public interface GiaSuRepository extends JpaRepository<GiaSu, Integer> {
     @Override
     <S extends GiaSu> List<S> saveAllAndFlush(Iterable<S> entities);
     GiaSu findByTaiKhoan(TaiKhoan taiKhoan);
+    java.util.Optional<GiaSu> findByTaiKhoan_MaTaiKhoan(Integer maTaiKhoan);
 }

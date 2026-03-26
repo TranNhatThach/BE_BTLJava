@@ -94,12 +94,24 @@ public class AuthService {
                     .success(false)
                     .build();
         }
+        Integer relativeId = null;
+        if ("GIA_SU".equals(taiKhoan.getVaiTro())) {
+            GiaSu giaSu = giaSuRepository.findByTaiKhoan_MaTaiKhoan(taiKhoan.getMaTaiKhoan())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin Gia sư"));
+            relativeId = giaSu.getMaGiaSu();
+        } else if ("HOC_VIEN".equals(taiKhoan.getVaiTro())) {
+            HocVien hocVien = hocVienRepository.findByTaiKhoan_MaTaiKhoan(taiKhoan.getMaTaiKhoan())
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin Học viên"));
+            relativeId = hocVien.getMaHocVien();
+        }
+
         String token = jwtService.generateToken(taiKhoan);
 
         return AuthResponse.builder()
                 .message("Login success")
                 .success(true)
                 .token(token)
+                .userId(relativeId)
                 .username(taiKhoan.getHoTen())
                 .role(taiKhoan.getVaiTro())
                 .build();
