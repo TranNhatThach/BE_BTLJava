@@ -22,4 +22,5 @@ public class GiaSuResponse {
     private Integer soNamKinhNghiem;
     private Double diemDanhGia;
     private Integer soHocVien;
+    private String moTa;
 }

@@ -22,6 +22,7 @@ public class TaiKhoanResponse {
     private String chuyenNganh;
     private Integer namSinh;
     private Integer soNamKinhNghiem;
+    private String moTa;
     // hoc vien
     private String lopHoc;
     private String truongHoc;

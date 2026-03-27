@@ -68,6 +68,7 @@ public class GiaSuService {
                     .soNamKinhNghiem(gsmh.getGiaSu().getSoNamKinhNghiem())
                     .diemDanhGia(avgRating)
                     .soHocVien(studentCount)
+                    .moTa(gsmh.getGiaSu().getMoTa())
                     .build();
         });
     }

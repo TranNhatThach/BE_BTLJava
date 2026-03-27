@@ -37,7 +37,8 @@ public class TaiKhoanService {
                         .truongDaiHoc(gs.getTruongDaiHoc())
                         .chuyenNganh(gs.getChuyenNganh())
                         .namSinh(gs.getNamSinh())
-                        .soNamKinhNghiem(gs.getSoNamKinhNghiem());
+                        .soNamKinhNghiem(gs.getSoNamKinhNghiem())
+                        .moTa(gs.getMoTa());
             }
 
             return builder.build();
@@ -95,6 +96,8 @@ public class TaiKhoanService {
                 gs.setNamSinh(updated.getNamSinh());
             if (updated.getSoNamKinhNghiem() != null)
                 gs.setSoNamKinhNghiem(updated.getSoNamKinhNghiem());
+            if (updated.getMoTa() != null)
+                gs.setMoTa(updated.getMoTa());
             giaSuRepository.save(gs);
         } else if ("HOC_VIEN".equals(tk.getVaiTro())) {
             HocVien hv = hocVienRepository.findByTaiKhoan(tk);

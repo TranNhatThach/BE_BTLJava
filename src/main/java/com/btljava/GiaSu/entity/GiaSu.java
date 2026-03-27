@@ -37,4 +37,7 @@ public class GiaSu {
 
     @Column(name = "so_nam_kinh_nghiem")
     private Integer soNamKinhNghiem;
+
+    @Column(name = "mo_ta", columnDefinition = "nvarchar(max)")
+    private String moTa;
 }
