@@ -78,6 +78,13 @@ public class TuyenDungController {
         return ResponseEntity.ok(list);
     }
 
+    // Học viên xem danh sách các đơn ứng tuyển của các yêu cầu của mình
+    @GetMapping("/danh-sach-ung-tuyen-cho-hoc-vien/{maHocVien}")
+    public ResponseEntity<List<UngTuyen>> layDanhSachUngTuyenChoHocVien(@PathVariable("maHocVien") Integer maHocVien) {
+        List<UngTuyen> list = tuyenDungService.layDanhSachUngTuyenChoHocVien(maHocVien);
+        return ResponseEntity.ok(list);
+    }
+
     // Gia sư xem danh sách các đơn mình đã ứng tuyển
     @GetMapping("/da-ung-tuyen/{maGiaSu}")
     public ResponseEntity<List<UngTuyen>> layDanhSachDaUngTuyen(@PathVariable("maGiaSu") Integer maGiaSu) {

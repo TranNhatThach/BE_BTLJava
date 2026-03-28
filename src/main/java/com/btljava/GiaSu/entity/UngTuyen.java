@@ -30,13 +30,13 @@ public class UngTuyen {
     @JoinColumn(name = "ma_yeu_cau")
     private YeuCauTimGiaSu yeuCauTimGiaSu;
 
-    @Column(name = "loi_nhan", length = 255)
+    @Column(name = "loi_nhan", length = 255 , columnDefinition = "nvarchar(300)")
     private String loiNhan;
 
     @Column(name = "muc_hoc_phi_de_xuat")
     private Integer mucHocPhiDeXuat;
 
-    @Column(name = "trang_thai", length = 50)
+    @Column(name = "trang_thai", length = 50, columnDefinition = "nvarchar(50)")
     private String trangThai;
 
     @CreationTimestamp
