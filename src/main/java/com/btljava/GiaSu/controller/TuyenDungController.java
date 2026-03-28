@@ -78,6 +78,13 @@ public class TuyenDungController {
         return ResponseEntity.ok(list);
     }
 
+    // Gia sư xem danh sách các đơn mình đã ứng tuyển
+    @GetMapping("/da-ung-tuyen/{maGiaSu}")
+    public ResponseEntity<List<UngTuyen>> layDanhSachDaUngTuyen(@PathVariable("maGiaSu") Integer maGiaSu) {
+        List<UngTuyen> list = tuyenDungService.layDanhSachDaUngTuyen(maGiaSu);
+        return ResponseEntity.ok(list);
+    }
+
     // Học viên duyệt và đồng ý một gia sư ứng tuyển
     @PostMapping("/hoc-vien-duyet")
     public ResponseEntity<LopHoc> hocVienDuyet(

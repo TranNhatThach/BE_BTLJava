@@ -15,12 +15,12 @@ import java.util.Map;
 
 @Service
 public class JwtService {
-    // Chuỗi này phải là Base64 và đủ dài (ít nhất 32 ký tự sau khi giải mã)
+    // Chuỗi này phải là Base64
     private static final String SECRET_KEY = "ZGF5X2xhX2NodW9pX2JpX21hdF9yYXRfZGFpX3ZhX2Jha19tYXRfY3VhX2Jhbl9wcm9qZWN0X2dpYXN1";
 
     public String generateToken(TaiKhoan taiKhoan) {
         Map<String, Object> extraClaims = new HashMap<>();
-        // Nhét vaiTro vào Token để Frontend không cần gọi API lần 2 vẫn biết user là ai
+
         extraClaims.put("userId", taiKhoan.getMaTaiKhoan());
         extraClaims.put("role", taiKhoan.getVaiTro());
         extraClaims.put("hoTen", taiKhoan.getHoTen());

@@ -188,6 +188,11 @@ public class TuyenDungService {
         return ungTuyenRepository.findByYeuCauTimGiaSu_MaYeuCauAndTrangThai(maYeuCau, "CHỜ HỌC VIÊN XÁC NHẬN");
     }
 
+    // Gia sư xem danh sách các đơn đã ứng tuyển của mình
+    public List<UngTuyen> layDanhSachDaUngTuyen(Integer maGiaSu) {
+        return ungTuyenRepository.findByGiaSu_MaGiaSu(maGiaSu);
+    }
+
     @Transactional
     public LopHoc hocVienDuyet(Integer maHocVien, Integer maGiaSu, Integer maYeuCau) {
         UngTuyenId id = new UngTuyenId(maGiaSu, maYeuCau);
