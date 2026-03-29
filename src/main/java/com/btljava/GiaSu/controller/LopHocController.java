@@ -69,7 +69,7 @@ public class LopHocController {
     @PostMapping
     public ResponseEntity<?> createLopHoc(
             @RequestBody LopHocRequest request,
-            @RequestHeader(value = "Authorization", required = false) String authHeader){
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.badRequest().body("Token không hợp lệ");
@@ -105,7 +105,15 @@ public class LopHocController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<LopHocDTO> updateStatus(@PathVariable("id") Integer id, @RequestParam("status") String status) {
+    public ResponseEntity<LopHocDTO> updateStatus(@PathVariable("id") Integer id,
+            @RequestParam("status") String status) {
         return ResponseEntity.ok(lopHocService.updateStatus(id, status));
+    }
+
+    @PutMapping("/{id}/lich-hoc")
+    public ResponseEntity<LopHocDTO> updateLichHoc(@PathVariable("id") Integer id,
+            @RequestParam("lichHoc") String lichHoc,
+            @RequestParam(value = "ghiChu", required = false) String ghiChu) {
+        return ResponseEntity.ok(lopHocService.updateLichHoc(id, lichHoc, ghiChu));
     }
 }

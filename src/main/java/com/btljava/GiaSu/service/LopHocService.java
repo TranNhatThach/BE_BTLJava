@@ -49,7 +49,7 @@ public class LopHocService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy học viên"));
         GiaSu giaSu = giaSuRepository.findById(request.getMaGiaSu())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy gia sư"));
-        
+
         MonHoc monHoc = null;
         if (request.getMaMon() != null) {
             monHoc = monHocRepository.findById(request.getMaMon())
@@ -70,6 +70,7 @@ public class LopHocService {
                 .ngayBatDau(request.getNgayBatDau())
                 .ngayKetThuc(request.getNgayKetThuc())
                 .trangThai("DANG_HOC") // Mặc định khi tạo lớp
+                .lichHoc(yeuCau != null ? yeuCau.getLichHocDuKien() : null)
                 .build();
 
         return mapToDTO(lopHocRepository.save(lopHoc));
@@ -82,17 +83,34 @@ public class LopHocService {
         return mapToDTO(lopHocRepository.save(lopHoc));
     }
 
+    public LopHocDTO updateLichHoc(Integer id, String lichHoc, String ghiChu) {
+        LopHoc lopHoc = lopHocRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học với ID: " + id));
+        if (lichHoc != null) {
+            lopHoc.setLichHoc(lichHoc);
+        }
+        if (ghiChu != null) {
+            lopHoc.setGhiChu(ghiChu);
+        }
+        return mapToDTO(lopHocRepository.save(lopHoc));
+    }
+
     private LopHocDTO mapToDTO(LopHoc lopHoc) {
         return LopHocDTO.builder()
                 .maLop(lopHoc.getMaLop())
                 .maHocVien(lopHoc.getHocVien() != null ? lopHoc.getHocVien().getMaHocVien() : null)
+                .tenHocVien(lopHoc.getHocVien() != null && lopHoc.getHocVien().getTaiKhoan() != null ? lopHoc.getHocVien().getTaiKhoan().getHoTen() : null)
                 .maGiaSu(lopHoc.getGiaSu() != null ? lopHoc.getGiaSu().getMaGiaSu() : null)
+                .tenGiaSu(lopHoc.getGiaSu() != null && lopHoc.getGiaSu().getTaiKhoan() != null ? lopHoc.getGiaSu().getTaiKhoan().getHoTen() : null)
                 .maMon(lopHoc.getMonHoc() != null ? lopHoc.getMonHoc().getMaMon() : null)
+                .tenMonHoc(lopHoc.getMonHoc() != null ? lopHoc.getMonHoc().getTenMon() : null)
                 .maYeuCau(lopHoc.getYeuCauTimGiaSu() != null ? lopHoc.getYeuCauTimGiaSu().getMaYeuCau() : null)
                 .hocPhiThoaThuan(lopHoc.getHocPhiThoaThuan())
                 .ngayBatDau(lopHoc.getNgayBatDau())
                 .ngayKetThuc(lopHoc.getNgayKetThuc())
                 .trangThai(lopHoc.getTrangThai())
+                .lichHoc(lopHoc.getLichHoc())
+                .ghiChu(lopHoc.getGhiChu())
                 .build();
     }
 }
