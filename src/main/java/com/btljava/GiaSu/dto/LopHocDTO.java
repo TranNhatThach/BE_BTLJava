@@ -20,4 +20,9 @@ public class LopHocDTO {
     private LocalDate ngayBatDau;
     private LocalDate ngayKetThuc;
     private String trangThai;
+    private String tenHocVien;
+    private String tenGiaSu;
+    private String tenMonHoc;
+    private String lichHoc;
+    private String ghiChu;
 }
