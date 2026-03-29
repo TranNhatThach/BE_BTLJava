@@ -48,4 +48,10 @@ public class LopHoc {
 
     @Column(name = "trang_thai", length = 50)
     private String trangThai;
+
+    @Column(name = "lich_hoc", columnDefinition = "NVARCHAR(255)")
+    private String lichHoc;
+
+    @Column(name = "ghi_chu", columnDefinition = "NVARCHAR(500)")
+    private String ghiChu;
 }

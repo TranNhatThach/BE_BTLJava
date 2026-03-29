@@ -50,6 +50,7 @@ public class YeuCauGiaSuService {
     }
 
     public List<YeuCauTimGiaSu> layTatCa() {
-        return repo.findAll();
+        // Chỉ lấy những yêu cầu CHỜ DUYỆT hoặc MỞ, không hiển thị các yêu cầu ĐÃ GIAO hoặc TRỰC TIẾP
+        return repo.findByTrangThaiIn(java.util.Arrays.asList("CHỜ DUYỆT", "MỞ"));
     }
 }
