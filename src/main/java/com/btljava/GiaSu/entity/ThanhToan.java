@@ -24,7 +24,7 @@ public class ThanhToan {
 
     @ManyToOne
     @JoinColumn(name = "ma_lop", referencedColumnName = "ma_lop")
-    private LopHoc lopHoc;
+    private LopHoc maLop;
 
     @Column(name = "so_tien")
     private Integer soTien;

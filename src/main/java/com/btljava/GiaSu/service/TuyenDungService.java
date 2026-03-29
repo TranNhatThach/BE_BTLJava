@@ -49,7 +49,7 @@ public class TuyenDungService {
                         monHoc = monHocRepository.save(monHoc);
                 }
 
-                // 1. Tạo Yêu Cầu Tìm Gia Sư
+                //  Tạo Yêu Cầu Tìm Gia Sư
                 YeuCauTimGiaSu yeuCau = YeuCauTimGiaSu.builder()
                                 .monHoc(monHoc)
                                 .hocVien(hocVien)
@@ -64,7 +64,7 @@ public class TuyenDungService {
                                 .build();
                 yeuCau = yeuCauRepository.save(yeuCau);
 
-                // 2. Tạo Ứng Tuyển
+                //  Tạo Ứng Tuyển
                 UngTuyenId ungTuyenId = new UngTuyenId(giaSu.getMaGiaSu(), yeuCau.getMaYeuCau());
                 UngTuyen ungTuyen = UngTuyen.builder()
                                 .id(ungTuyenId)
@@ -79,7 +79,7 @@ public class TuyenDungService {
 
                 ungTuyenRepository.save(ungTuyen);
 
-                // 3. Gửi thông báo cho Gia sư
+                //  Gửi thông báo cho Gia sư
                 notificationService.guiThongBao(giaSu.getTaiKhoan(),
                                 "Học viên " + hocVien.getTaiKhoan().getHoTen()
                                                 + " vừa gửi cho bạn một lời mời dạy trực tiếp môn "
@@ -228,6 +228,28 @@ public class TuyenDungService {
 
                 yeuCau.setTrangThai("ĐÃ GIAO");
                 yeuCauRepository.save(yeuCau);
+
+                notificationService.guiThongBao(yeuCau.getHocVien().getTaiKhoan(),
+                                "Học viên " + yeuCau.getHocVien().getTaiKhoan().getHoTen()
+                                                + " đã phê duyệt đơn ứng tuyển của bạn cho môn "
+                                                + yeuCau.getMonHoc().getTenMon(),
+                                "LOP_HOC");
+
+                List<UngTuyen> otherApplicants = ungTuyenRepository.findByYeuCauTimGiaSu_MaYeuCau(maYeuCau);
+                for (UngTuyen other : otherApplicants) {
+                        if (!other.getGiaSu().getMaGiaSu().equals(maGiaSu) &&
+                                        "CHỜ HỌC VIÊN XÁC NHẬN".equals(other.getTrangThai())) {
+
+                                other.setTrangThai("HỌC VIÊN TỪ CHỐI");
+                                ungTuyenRepository.save(other);
+
+                                notificationService.guiThongBao(other.getGiaSu().getTaiKhoan(),
+                                                "Học viên " + yeuCau.getHocVien().getTaiKhoan().getHoTen()
+                                                                + " đã duyệt gia sư khác cho môn "
+                                                                + yeuCau.getMonHoc().getTenMon(),
+                                                "TUYEN_DUNG");
+                        }
+                }
 
                 // Tạo Lớp Học
                 LopHoc lopHoc = LopHoc.builder()
