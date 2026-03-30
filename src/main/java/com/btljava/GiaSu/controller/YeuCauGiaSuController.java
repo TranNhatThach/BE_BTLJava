@@ -34,4 +34,9 @@ public class YeuCauGiaSuController {
     public List<YeuCauTimGiaSu> danhSachBaiDang() {
         return yeuCauService.layTatCa();
     }
+
+    @GetMapping("/danh-sach-yeu-cau/{maHocVien}")
+    public List<YeuCauTimGiaSu> danhSachYeuCauCuaHocVien(@PathVariable Integer maHocVien) {
+        return yeuCauService.layCuaHocVien(maHocVien);
+    }
 }

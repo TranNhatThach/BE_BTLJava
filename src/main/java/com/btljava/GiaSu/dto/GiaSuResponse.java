@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class GiaSuResponse {
     private Integer maGiaSu;
     private String username;
+    private String hoTen;
     private String trinhDo;
     private String monHoc;
     private String viTri;
@@ -20,6 +21,7 @@ public class GiaSuResponse {
     private String truongDaiHoc;
     private String chuyenNganh;
     private Integer soNamKinhNghiem;
+    private Integer namSinh;
     private Double diemDanhGia;
     private Integer soHocVien;
     private String moTa;

@@ -7,6 +7,8 @@ import com.btljava.GiaSu.entity.TaiKhoan;
 import com.btljava.GiaSu.repository.GiaSuRepository;
 import com.btljava.GiaSu.repository.HocVienRepository;
 import com.btljava.GiaSu.repository.TaiKhoanRepository;
+import com.btljava.GiaSu.repository.DanhGiaRepository;
+import com.btljava.GiaSu.entity.DanhGia;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class TaiKhoanService {
     private final TaiKhoanRepository taiKhoanRepository;
     private final GiaSuRepository giaSuRepository;
     private final HocVienRepository hocVienRepository;
+    private final DanhGiaRepository danhGiaRepository;
 
     public TaiKhoanResponse getById(Integer id) {
         TaiKhoan tk = taiKhoanRepository.findById(id)
@@ -33,11 +36,21 @@ public class TaiKhoanService {
                     .viTri(tk.getViTri());
 
             if (gs != null) {
+                // Lấy đánh giá của gia sư hiện tại
+                java.util.List<DanhGia> danhGias = danhGiaRepository.findByLopHoc_GiaSu_MaGiaSu(gs.getMaGiaSu());
+                Double avgRating = danhGias.stream()
+                        .mapToInt(DanhGia::getDiem)
+                        .average()
+                        .orElse(0.0);
+                avgRating = Math.round(avgRating * 10) / 10.0;
+
                 builder.gioiTinh(gs.getGioiTinh())
                         .truongDaiHoc(gs.getTruongDaiHoc())
                         .chuyenNganh(gs.getChuyenNganh())
                         .namSinh(gs.getNamSinh())
                         .soNamKinhNghiem(gs.getSoNamKinhNghiem())
+                        .diemDanhGia(avgRating)
+                        .soDanhGia(danhGias.size())
                         .moTa(gs.getMoTa());
             }
 

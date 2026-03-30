@@ -146,7 +146,11 @@ public class TuyenDungService {
                 ungTuyenRepository.save(ungTuyen);
 
                 YeuCauTimGiaSu yeuCau = ungTuyen.getYeuCauTimGiaSu();
-                yeuCau.setTrangThai("MỞ"); // Mở lại yêu cầu để người khác ứng tuyển hoặc học viên chọn lại
+                if ("TRỰC TIẾP".equals(yeuCau.getTrangThai())) {
+                        yeuCau.setTrangThai("TỪ CHỐI");
+                } else {
+                        yeuCau.setTrangThai("MỞ"); // Yêu cầu chung thì mới mở lại để người khác ứng tuyển
+                }
                 yeuCauRepository.save(yeuCau);
 
                 // Thông báo cho học viên

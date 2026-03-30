@@ -10,4 +10,5 @@ import java.util.List;
 public interface DanhGiaRepository extends JpaRepository<DanhGia, Integer> {
     List<DanhGia> findByLopHoc_MaLop(Integer maLop);
     List<DanhGia> findByLopHoc_GiaSu_MaGiaSu(Integer maGiaSu);
+    boolean existsByLopHoc_MaLop(Integer maLop);
 }
