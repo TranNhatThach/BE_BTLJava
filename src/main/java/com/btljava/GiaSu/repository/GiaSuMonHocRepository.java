@@ -1,5 +1,6 @@
 package com.btljava.GiaSu.repository;
 
+import com.btljava.GiaSu.entity.GiaSu;
 import com.btljava.GiaSu.entity.GiaSuMonHoc;
 import com.btljava.GiaSu.entity.GiaSuMonHocId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +14,7 @@ import java.util.List;
 @Repository
 public interface GiaSuMonHocRepository extends JpaRepository<GiaSuMonHoc, GiaSuMonHocId> {
         List<GiaSuMonHoc> findByGiaSu_MaGiaSu(Integer maGiaSu);
-
+        List<GiaSuMonHoc> findByGiaSu(GiaSu giaSu);
         @Query("SELECT gsmh FROM GiaSuMonHoc gsmh " +
                         "WHERE (:tenMon IS NULL OR gsmh.monHoc.tenMon LIKE :tenMon) " +
                         "AND (:maGiaSu IS NULL OR gsmh.giaSu.maGiaSu = :maGiaSu) " +
