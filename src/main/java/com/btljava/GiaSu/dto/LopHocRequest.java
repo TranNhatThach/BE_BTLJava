@@ -18,4 +18,5 @@ public class LopHocRequest {
     private Integer hocPhiThoaThuan;
     private LocalDate ngayBatDau;
     private LocalDate ngayKetThuc;
+    private Integer tongSoBuoi;
 }

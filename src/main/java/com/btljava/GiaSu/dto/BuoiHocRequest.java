@@ -14,5 +14,4 @@ public class BuoiHocRequest {
     private Integer maLop;
     private LocalDateTime thoiGianBatDau;
     private LocalDateTime thoiGianKetThuc;
-    private Integer soGioHoc;
 }

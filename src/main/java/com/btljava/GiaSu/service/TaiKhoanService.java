@@ -70,7 +70,8 @@ public class TaiKhoanService {
             if (hv != null) {
                 builder.lopHoc(hv.getLopHoc())
                         .truongHoc(hv.getTruongHoc())
-                        .hinhThucHocUuTien(hv.getHinhThucHocUuTien());
+                        .hinhThucHocUuTien(hv.getHinhThucHocUuTien())
+                        .moTa(hv.getGhiChu());
             }
 
             return builder.build();
@@ -124,6 +125,8 @@ public class TaiKhoanService {
                 hv.setTruongHoc(updated.getTruongHoc());
             if (updated.getHinhThucHocUuTien() != null)
                 hv.setHinhThucHocUuTien(updated.getHinhThucHocUuTien());
+            if (updated.getMoTa() != null)
+                hv.setGhiChu(updated.getMoTa());
             hocVienRepository.save(hv);
         }
 
