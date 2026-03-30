@@ -31,9 +31,6 @@ public class BuoiHoc {
     @Column(name = "thoi_gian_ket_thuc")
     private LocalDateTime thoiGianKetThuc;
 
-    @Column(name = "so_gio_hoc")
-    private Integer soGioHoc;
-
     @Column(name = "trang_thai", length = 50)
     private String trangThai;
 }

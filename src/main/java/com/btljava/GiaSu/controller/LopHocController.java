@@ -116,4 +116,15 @@ public class LopHocController {
             @RequestParam(value = "ghiChu", required = false) String ghiChu) {
         return ResponseEntity.ok(lopHocService.updateLichHoc(id, lichHoc, ghiChu));
     }
+
+    @PutMapping("/{id}/so-buoi")
+    public ResponseEntity<LopHocDTO> setCongSoBuoi(@PathVariable("id") Integer id,
+            @RequestParam("tongSoBuoi") Integer tongSoBuoi) {
+        return ResponseEntity.ok(lopHocService.setCongSoBuoi(id, tongSoBuoi));
+    }
+
+    @PostMapping("/{id}/hoan-thanh-buoi")
+    public ResponseEntity<LopHocDTO> hoanThanhMoiBuoi(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(lopHocService.hoanThanhMoiBuoi(id));
+    }
 }

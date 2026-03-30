@@ -25,4 +25,6 @@ public class LopHocDTO {
     private String tenMonHoc;
     private String lichHoc;
     private String ghiChu;
+    private Integer tongSoBuoi;
+    private Integer soBuoiConLai;
 }

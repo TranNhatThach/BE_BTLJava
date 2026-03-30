@@ -15,6 +15,5 @@ public class BuoiHocDTO {
     private Integer maLop;
     private LocalDateTime thoiGianBatDau;
     private LocalDateTime thoiGianKetThuc;
-    private Integer soGioHoc;
     private String trangThai;
 }
