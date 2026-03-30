@@ -53,4 +53,9 @@ public class YeuCauGiaSuService {
         // Chỉ lấy những yêu cầu CHỜ DUYỆT hoặc MỞ, không hiển thị các yêu cầu ĐÃ GIAO hoặc TRỰC TIẾP
         return repo.findByTrangThaiIn(java.util.Arrays.asList("CHỜ DUYỆT", "MỞ"));
     }
+
+    public List<YeuCauTimGiaSu> layCuaHocVien(Integer maHocVien) {
+        // Học viên xem được toàn bộ yêu cầu của chính họ, bao gồm cả Mời trực tiếp hoặc TỪ CHỐI
+        return repo.findByHocVien_MaHocVien(maHocVien);
+    }
 }
