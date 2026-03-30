@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface YeuCauTimGiaSuRepository extends JpaRepository<YeuCauTimGiaSu, Integer> {
     List<YeuCauTimGiaSu> findByTrangThaiIn(List<String> trangThaiList);
+    List<YeuCauTimGiaSu> findByHocVien_MaHocVien(Integer maHocVien);
 }

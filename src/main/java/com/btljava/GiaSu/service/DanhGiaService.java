@@ -33,6 +33,10 @@ public class DanhGiaService {
         LopHoc lopHoc = lopHocRepository.findById(request.getMaLop())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học"));
 
+        if (danhGiaRepository.existsByLopHoc_MaLop(request.getMaLop())) {
+            throw new RuntimeException("Lớp học này đã được đánh giá rồi. Hãy dùng chức năng cập nhật.");
+        }
+
         DanhGia danhGia = DanhGia.builder()
                 .lopHoc(lopHoc)
                 .diem(request.getDiem())
