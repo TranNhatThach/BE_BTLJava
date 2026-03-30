@@ -54,4 +54,10 @@ public class LopHoc {
 
     @Column(name = "ghi_chu", columnDefinition = "NVARCHAR(500)")
     private String ghiChu;
+
+    @Column(name = "tong_so_buoi")
+    private Integer tongSoBuoi;
+
+    @Column(name = "so_buoi_con_lai")
+    private Integer soBuoiConLai;
 }
