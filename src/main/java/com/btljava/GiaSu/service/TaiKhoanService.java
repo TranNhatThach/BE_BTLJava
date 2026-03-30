@@ -1,16 +1,11 @@
 package com.btljava.GiaSu.service;
 
 import com.btljava.GiaSu.dto.TaiKhoanResponse;
-import com.btljava.GiaSu.entity.GiaSu;
-import com.btljava.GiaSu.entity.HocVien;
-import com.btljava.GiaSu.entity.TaiKhoan;
-import com.btljava.GiaSu.repository.GiaSuRepository;
-import com.btljava.GiaSu.repository.HocVienRepository;
-import com.btljava.GiaSu.repository.TaiKhoanRepository;
-import com.btljava.GiaSu.repository.DanhGiaRepository;
-import com.btljava.GiaSu.entity.DanhGia;
+import com.btljava.GiaSu.entity.*;
+import com.btljava.GiaSu.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +15,14 @@ public class TaiKhoanService {
     private final GiaSuRepository giaSuRepository;
     private final HocVienRepository hocVienRepository;
     private final DanhGiaRepository danhGiaRepository;
+    private final ThongBaoRepository thongBaoRepository;
+    private final YeuCauTimGiaSuRepository yeuCauRepository;
+    private final UngTuyenRepository ungTuyenRepository;
+    private final LopHocRepository lopHocRepository;
+    private final BuoiHocRepository buoiHocRepository;
+    private final ThanhToanRepository thanhToanRepository;
+    private final LichSuGiaoDichRepository lichSuGiaoDichRepository;
+    private final GiaSuMonHocRepository giaSuMonHocRepository;
 
     public TaiKhoanResponse getById(Integer id) {
         TaiKhoan tk = taiKhoanRepository.findById(id)
@@ -129,4 +132,81 @@ public class TaiKhoanService {
 
         return getById(id);
     }
+
+    public List<TaiKhoan> getAllTaiKhoan() {
+        return taiKhoanRepository.findAll();
+    }
+
+    public void deleteTaiKhoan(Integer id) {
+        TaiKhoan tk = taiKhoanRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại với id: " + id));
+
+        // Xóa thông báo
+        thongBaoRepository.deleteAll(thongBaoRepository.findByTaiKhoan(tk));
+
+        if ("HOC_VIEN".equals(tk.getVaiTro())) {
+            HocVien hv = hocVienRepository.findByTaiKhoan(tk);
+            if (hv != null) {
+                // 1. Xóa lớp học TRƯỚC (vì lop_hoc tham chiếu tới yeu_cau)
+                List<LopHoc> lopHocList = lopHocRepository.findByHocVien(hv);
+                for (LopHoc lop : lopHocList) {
+                    danhGiaRepository.deleteAll(danhGiaRepository.findByLopHoc(lop));
+                    buoiHocRepository.deleteAll(buoiHocRepository.findByLopHoc(lop));
+                    List<ThanhToan> ttList = thanhToanRepository.findByMaLop(lop);
+                    for (ThanhToan tt : ttList) {
+                        lichSuGiaoDichRepository.deleteAll(lichSuGiaoDichRepository.findByThanhToan(tt));
+                    }
+                    thanhToanRepository.deleteAll(ttList);
+                }
+                lopHocRepository.deleteAll(lopHocList);
+
+                // 2. Sau đó mới xóa yêu cầu và ứng tuyển
+                List<YeuCauTimGiaSu> yeuCauList = yeuCauRepository.findByHocVien(hv);
+                for (YeuCauTimGiaSu yc : yeuCauList) {
+                    ungTuyenRepository.deleteAll(ungTuyenRepository.findByYeuCauTimGiaSu(yc));
+                }
+                yeuCauRepository.deleteAll(yeuCauList);
+
+                // 3. Cuối cùng xóa hoc vien
+                hocVienRepository.delete(hv);
+            }
+        } else if ("GIA_SU".equals(tk.getVaiTro())) {
+            GiaSu gs = giaSuRepository.findByTaiKhoan(tk);
+            if (gs != null) {
+                // Xóa môn học của gia sư
+                giaSuMonHocRepository.deleteAll(giaSuMonHocRepository.findByGiaSu(gs));
+
+                // Xóa ứng tuyển
+                ungTuyenRepository.deleteAll(ungTuyenRepository.findByGiaSu(gs));
+
+                // Xóa lớp học
+                List<LopHoc> lopHocList = lopHocRepository.findByGiaSu(gs);
+
+                for (LopHoc lop : lopHocList) {
+                    danhGiaRepository.deleteAll(danhGiaRepository.findByLopHoc(lop));
+                    buoiHocRepository.deleteAll(buoiHocRepository.findByLopHoc(lop));
+                    List<ThanhToan> ttList = thanhToanRepository.findByMaLop(lop);
+                    for (ThanhToan tt : ttList) {
+                        lichSuGiaoDichRepository.deleteAll(lichSuGiaoDichRepository.findByThanhToan(tt));
+                    }
+                    thanhToanRepository.deleteAll(ttList);
+                }
+                lopHocRepository.deleteAll(lopHocList);
+
+                giaSuRepository.delete(gs);
+            }
+        }
+
+        taiKhoanRepository.delete(tk);
+    }
+
+    public List<TaiKhoan> getAllGiaSu(){
+        return taiKhoanRepository.findByVaiTro("GIA_SU");
+    }
+
+    public List<TaiKhoan> getAllHocVien() {
+        return taiKhoanRepository.findByVaiTro("HOC_VIEN");
+    }
+
+
 }
