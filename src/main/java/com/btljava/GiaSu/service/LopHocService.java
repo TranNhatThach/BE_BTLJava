@@ -1,6 +1,5 @@
 package com.btljava.GiaSu.service;
 
-import com.btljava.GiaSu.dto.BuoiHocDTO;
 import com.btljava.GiaSu.dto.LopHocDTO;
 import com.btljava.GiaSu.dto.LopHocRequest;
 import com.btljava.GiaSu.entity.BuoiHoc;
@@ -176,12 +175,3 @@ public class LopHocService {
     }
 
 }
-
-    
-    
-
-    
-                        
-                        
-                        
-                        

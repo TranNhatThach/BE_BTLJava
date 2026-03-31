@@ -1,250 +1,223 @@
-CREATE DATABASE HeThongGiaSu;
-GO
-USE [HeThongGiaSu];
+USE [master]
 GO
 
-CREATE TABLE Tai_Khoan (
-    ma_tai_khoan INT IDENTITY(1,1) PRIMARY KEY,
-    email NVARCHAR(100) UNIQUE NOT NULL,
-    mat_khau_ma_hoa NVARCHAR(255) NOT NULL,
-    so_dien_thoai NVARCHAR(20),
-    ho_ten NVARCHAR(100),
-    vai_tro NVARCHAR(20),
-    trang_thai NVARCHAR(20),
-    ngay_tao DATETIME DEFAULT GETDATE(),
-    vi_tri NVARCHAR(255)
-);
-GO
-CREATE TABLE Gia_Su (
-    ma_gia_su INT IDENTITY(1,1) PRIMARY KEY,
-    ma_tai_khoan INT UNIQUE,
-    gioi_tinh NVARCHAR(10),
-    truong_dai_hoc NVARCHAR(100),
-    chuyen_nganh NVARCHAR(100),
-    nam_sinh INT,
-    so_nam_kinh_nghiem INT,
-
-    FOREIGN KEY (ma_tai_khoan) REFERENCES Tai_Khoan(ma_tai_khoan)
-);
-GO
-CREATE TABLE Hoc_Vien (
-    ma_hoc_vien INT IDENTITY(1,1) PRIMARY KEY,
-    ma_tai_khoan INT UNIQUE,
-    lop_hoc NVARCHAR(50),
-    truong_hoc NVARCHAR(100),
-    vi_do FLOAT,
-    kinh_do FLOAT,
-    hinh_thuc_hoc_uu_tien NVARCHAR(50),
-    ghi_chu NVARCHAR(255),
-
-    FOREIGN KEY (ma_tai_khoan) REFERENCES Tai_Khoan(ma_tai_khoan)
-);
-GO
-CREATE TABLE Mon_Hoc (
-    ma_mon INT IDENTITY(1,1) PRIMARY KEY,
-    ten_mon NVARCHAR(100),
-    mo_ta NVARCHAR(255)
-);
-GO
-CREATE TABLE Gia_Su_Mon_Hoc (
-    ma_gia_su INT,
-    ma_mon INT,
-    trinh_do NVARCHAR(50),
-    hoc_phi_moi_gio int,
-
-    PRIMARY KEY (ma_gia_su, ma_mon),
-
-    FOREIGN KEY (ma_gia_su) REFERENCES Gia_Su(ma_gia_su),
-    FOREIGN KEY (ma_mon) REFERENCES Mon_Hoc(ma_mon)
-);
-GO
-CREATE TABLE Yeu_Cau_Tim_Gia_Su (
-    ma_yeu_cau INT IDENTITY(1,1) PRIMARY KEY,
-    ma_mon INT,
-    ma_hoc_vien INT,
-    trinh_do NVARCHAR(50),
-    lich_hoc_du_kien NVARCHAR(255),
-    hinh_thuc NVARCHAR(50),
-    dia_diem NVARCHAR(255),
-    ngan_sach_min int,
-    ngan_sach_max int,
-    trang_thai NVARCHAR(50),
-    ngay_tao DATETIME DEFAULT GETDATE(),
-    mo_ta NVARCHAR(MAX),
-
-    FOREIGN KEY (ma_mon) REFERENCES Mon_Hoc(ma_mon),
-    FOREIGN KEY (ma_hoc_vien) REFERENCES Hoc_Vien(ma_hoc_vien)
-);
-GO
-CREATE TABLE Ung_Tuyen (
-    ma_gia_su INT,
-    ma_yeu_cau INT,
-    loi_nhan NVARCHAR(255),
-    muc_hoc_phi_de_xuat int,
-    trang_thai NVARCHAR(50),
-    ngay_ung_tuyen DATETIME DEFAULT GETDATE(),
-
-    PRIMARY KEY (ma_gia_su, ma_yeu_cau),
-
-    FOREIGN KEY (ma_gia_su) REFERENCES Gia_Su(ma_gia_su),
-    FOREIGN KEY (ma_yeu_cau) REFERENCES Yeu_Cau_Tim_Gia_Su(ma_yeu_cau)
-);
-GO
-CREATE TABLE Lop_Hoc (
-    ma_lop INT IDENTITY(1,1) PRIMARY KEY,
-    ma_hoc_vien INT,
-    ma_gia_su INT,
-    ma_mon INT,
-    hoc_phi_thoa_thuan int,
-    ngay_bat_dau DATE,
-    ngay_ket_thuc DATE,
-    trang_thai NVARCHAR(50),
-    ma_yeu_cau INT,
-
-    FOREIGN KEY (ma_hoc_vien) REFERENCES Hoc_Vien(ma_hoc_vien),
-    FOREIGN KEY (ma_gia_su) REFERENCES Gia_Su(ma_gia_su),
-    FOREIGN KEY (ma_mon) REFERENCES Mon_Hoc(ma_mon),
-    FOREIGN KEY (ma_yeu_cau) REFERENCES Yeu_Cau_Tim_Gia_Su(ma_yeu_cau)
-);
-GO
-CREATE TABLE Buoi_Hoc (
-    ma_buoi INT IDENTITY(1,1) PRIMARY KEY,
-    ma_lop INT,
-    thoi_gian_bat_dau DATETIME,
-    thoi_gian_ket_thuc DATETIME,
-    so_gio_hoc int,
-    trang_thai NVARCHAR(50),
-
-    FOREIGN KEY (ma_lop) REFERENCES Lop_Hoc(ma_lop)
-);
-GO
-CREATE TABLE Thanh_Toan (
-    ma_thanh_toan INT IDENTITY(1,1) PRIMARY KEY,
-    ma_lop INT,
-    so_tien int,
-    phuong_thuc NVARCHAR(50),
-    trang_thai NVARCHAR(50),
-    ngay_tao DATETIME DEFAULT GETDATE(),
-
-    FOREIGN KEY (ma_lop) REFERENCES Lop_Hoc(ma_lop)
-);
-GO
-CREATE TABLE Lich_Su_Giao_Dich (
-    ma_giao_dich INT IDENTITY(1,1) PRIMARY KEY,
-    ma_thanh_toan INT,
-    so_tien int,
-    loai NVARCHAR(50),
-    ngay_giao_dich DATETIME DEFAULT GETDATE(),
-
-    FOREIGN KEY (ma_thanh_toan) REFERENCES Thanh_Toan(ma_thanh_toan)
-);
-GO
-CREATE TABLE Danh_Gia (
-    ma_danh_gia INT IDENTITY(1,1) PRIMARY KEY,
-    ma_lop INT,
-    diem INT,
-    nhan_xet NVARCHAR(255),
-    thoi_gian_danh_gia DATETIME DEFAULT GETDATE(),
-
-    FOREIGN KEY (ma_lop) REFERENCES Lop_Hoc(ma_lop)
-);
-GO
-CREATE TABLE Thong_Bao (
-    ma_thong_bao INT IDENTITY(1,1) PRIMARY KEY,
-    ma_tai_khoan INT NOT NULL,
-    noi_dung NVARCHAR(500) NOT NULL,
-    loai NVARCHAR(50),
-    da_doc BIT DEFAULT 0,
-    ngay_tao DATETIME DEFAULT GETDATE(),
-    CONSTRAINT FK_ThongBao_TaiKhoan FOREIGN KEY (ma_tai_khoan) REFERENCES Tai_Khoan(ma_tai_khoan)
-);
+-- 1. LÀM SẠCH: Xóa database cũ nếu đã tồn tại để tránh lỗi trùng lặp
+IF EXISTS (SELECT name FROM sys.databases WHERE name = N'HeThongGiaSu')
+BEGIN
+    ALTER DATABASE [HeThongGiaSu] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE [HeThongGiaSu];
+END
 GO
 
-
-INSERT INTO Tai_Khoan (email, mat_khau_ma_hoa, so_dien_thoai, ho_ten, vai_tro, trang_thai)
-VALUES
-('hocsinh1@gmail.com','123456','0901111111','Nguyen Van A','HOC_VIEN','HOAT_DONG'),
-('hocsinh2@gmail.com','123456','0902222222','Tran Thi B','HOC_VIEN','HOAT_DONG'),
-('giasu1@gmail.com','123456','0903333333','Le Van C','GIA_SU','HOAT_DONG'),
-('giasu2@gmail.com','123456','0904444444','Pham Thi D','GIA_SU','HOAT_DONG'),
-('admin@gmail.com','123456','0905555555','Admin','QUAN_TRI','HOAT_DONG');
+-- 2. TẠO DATABASE (Tự động chọn đường dẫn mặc định của máy bạn)
+CREATE DATABASE [HeThongGiaSu]
 GO
 
-INSERT INTO Gia_Su (ma_tai_khoan, gioi_tinh, truong_dai_hoc, chuyen_nganh, nam_sinh, so_nam_kinh_nghiem)
-VALUES
-(3,'Nam','DH Bach Khoa','Cong nghe thong tin',1999,3),
-(4,'Nu','DH Su Pham','Su Pham Toan',1998,4);
+USE [HeThongGiaSu]
 GO
 
-INSERT INTO Hoc_Vien (ma_tai_khoan, lop_hoc, truong_hoc, vi_do, kinh_do, hinh_thuc_hoc_uu_tien)
-VALUES
-(1,'10','THPT Chu Van An',21.0285,105.8542,'Hoc tai nha'),
-(2,'11','THPT Kim Lien',21.0300,105.8500,'Online');
+---------------------------------------------------------
+-- 3. TẠO TOÀN BỘ CẤU TRÚC BẢNG (14 BẢNG THEO FILE CỦA BẠN)
+---------------------------------------------------------
+
+CREATE TABLE [dbo].[tai_khoan](
+    [ma_tai_khoan] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ho_ten] [nvarchar](100) NULL,
+    [email] [varchar](100) NOT NULL UNIQUE,
+    [mat_khau_ma_hoa] [varchar](255) NOT NULL,
+    [so_dien_thoai] [varchar](20) NULL,
+    [vai_tro] [varchar](20) NULL,
+    [trang_thai] [varchar](20) NULL,
+    [vi_tri] [nvarchar](225) NULL,
+    [ngay_tao] [datetime2](6) DEFAULT GETDATE()
+    );
+
+CREATE TABLE [dbo].[mon_hoc](
+    [ma_mon] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ten_mon] [nvarchar](100) NULL,
+    [mo_ta] [nvarchar](255) NULL
+    );
+
+CREATE TABLE [dbo].[gia_su](
+    [ma_gia_su] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_tai_khoan] [int] FOREIGN KEY REFERENCES [tai_khoan]([ma_tai_khoan]),
+    [nam_sinh] [int] NULL,
+    [gioi_tinh] [varchar](10) NULL,
+    [chuyen_nganh] [nvarchar](100) NULL,
+    [truong_dai_hoc] [nvarchar](100) NULL,
+    [so_nam_kinh_nghiem] [int] NULL,
+    [mo_ta] [nvarchar](max) NULL
+    );
+
+CREATE TABLE [dbo].[hoc_vien](
+    [ma_hoc_vien] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_tai_khoan] [int] FOREIGN KEY REFERENCES [tai_khoan]([ma_tai_khoan]),
+    [truong_hoc] [nvarchar](100) NULL,
+    [dia_chi] [nvarchar](255) NULL,
+    [lop_hoc] [varchar](50) NULL,
+    [hinh_thuc_hoc_uu_tien] [varchar](50) NULL,
+    [ghi_chu] [nvarchar](255) NULL,
+    [vi_do] [float] NULL,
+    [kinh_do] [float] NULL
+    );
+
+CREATE TABLE [dbo].[yeu_cau_tim_gia_su](
+    [ma_yeu_cau] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_hoc_vien] [int] FOREIGN KEY REFERENCES [hoc_vien]([ma_hoc_vien]),
+    [ma_mon] [int] FOREIGN KEY REFERENCES [mon_hoc]([ma_mon]),
+    [ngan_sach_min] [int] NULL,
+    [ngan_sach_max] [int] NULL,
+    [hinh_thuc] [nvarchar](50) NULL,
+    [trinh_do] [nvarchar](50) NULL,
+    [dia_diem] [nvarchar](255) NULL,
+    [lich_hoc_du_kien] [nvarchar](255) NULL,
+    [mo_ta] [nvarchar](300) NULL,
+    [trang_thai] [nvarchar](50) NULL,
+    [ngay_tao] [datetime2](6) DEFAULT GETDATE()
+    );
+
+CREATE TABLE [dbo].[lop_hoc](
+    [ma_lop] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_gia_su] [int] FOREIGN KEY REFERENCES [gia_su]([ma_gia_su]),
+    [ma_hoc_vien] [int] FOREIGN KEY REFERENCES [hoc_vien]([ma_hoc_vien]),
+    [ma_mon] [int] FOREIGN KEY REFERENCES [mon_hoc]([ma_mon]),
+    [ma_yeu_cau] [int] FOREIGN KEY REFERENCES [yeu_cau_tim_gia_su]([ma_yeu_cau]),
+    [hoc_phi_thoa_thuan] [int] NULL,
+    [ngay_bat_dau] [date] NULL,
+    [ngay_ket_thuc] [date] NULL,
+    [trang_thai] [varchar](50) NULL,
+    [lich_hoc] [nvarchar](255) NULL,
+    [tong_so_buoi] [int] NULL,
+    [so_buoi_con_lai] [int] NULL,
+    [ghi_chu] [nvarchar](500) NULL
+    );
+
+CREATE TABLE [dbo].[buoi_hoc](
+    [ma_buoi] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_lop] [int] FOREIGN KEY REFERENCES [lop_hoc]([ma_lop]),
+    [so_gio_hoc] [int] NULL,
+    [thoi_gian_bat_dau] [datetime2](6) NULL,
+    [thoi_gian_ket_thuc] [datetime2](6) NULL,
+    [trang_thai] [varchar](50) NULL
+    );
+
+CREATE TABLE [dbo].[gia_su_mon_hoc](
+    [ma_gia_su] [int] NOT NULL,
+    [ma_mon] [int] NOT NULL,
+    [hoc_phi_moi_gio] [int] NULL,
+    [trinh_do] [varchar](50) NULL,
+    PRIMARY KEY ([ma_gia_su], [ma_mon]),
+    FOREIGN KEY ([ma_gia_su]) REFERENCES [gia_su]([ma_gia_su]),
+    FOREIGN KEY ([ma_mon]) REFERENCES [mon_hoc]([ma_mon])
+    );
+
+CREATE TABLE [dbo].[thanh_toan](
+    [ma_thanh_toan] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_lop] [int] FOREIGN KEY REFERENCES [lop_hoc]([ma_lop]),
+    [so_tien] [int] NULL,
+    [phuong_thuc] [nvarchar](50) NULL,
+    [trang_thai] [nvarchar](50) NULL,
+    [ngay_tao] [datetime2](6) DEFAULT GETDATE()
+    );
+
+CREATE TABLE [dbo].[lich_su_giao_dich](
+    [ma_giao_dich] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_thanh_toan] [int] FOREIGN KEY REFERENCES [thanh_toan]([ma_thanh_toan]),
+    [so_tien] [int] NULL,
+    [ngay_giao_dich] [datetime2](6) NULL,
+    [loai] [varchar](50) NULL
+    );
+
+CREATE TABLE [dbo].[danh_gia](
+    [ma_danh_gia] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_lop] [int] FOREIGN KEY REFERENCES [lop_hoc]([ma_lop]),
+    [diem] [int] NULL,
+    [nhan_xet] [nvarchar](255) NULL,
+    [thoi_gian_danh_gia] [datetime2](6) NULL
+    );
+
+CREATE TABLE [dbo].[thong_bao](
+    [ma_thong_bao] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [ma_tai_khoan] [int] NOT NULL FOREIGN KEY REFERENCES [tai_khoan]([ma_tai_khoan]),
+    [noi_dung] [nvarchar](500) NULL,
+    [loai] [nvarchar](50) NULL,
+    [da_doc] [bit] DEFAULT 0,
+    [ngay_tao] [datetime2](6) DEFAULT GETDATE()
+    );
+
+CREATE TABLE [dbo].[ung_tuyen](
+    [ma_gia_su] [int] NOT NULL,
+    [ma_yeu_cau] [int] NOT NULL,
+    [muc_hoc_phi_de_xuat] [int] NULL,
+    [loi_nhan] [nvarchar](300) NULL,
+    [trang_thai] [nvarchar](50) NULL,
+    [ngay_ung_tuyen] [datetime2](6) DEFAULT GETDATE(),
+    PRIMARY KEY ([ma_gia_su], [ma_yeu_cau]),
+    FOREIGN KEY ([ma_gia_su]) REFERENCES [gia_su]([ma_gia_su]),
+    FOREIGN KEY ([ma_yeu_cau]) REFERENCES [yeu_cau_tim_gia_su]([ma_yeu_cau])
+    );
+
 GO
 
-INSERT INTO Mon_Hoc (ten_mon, mo_ta)
-VALUES
-('Toan','Mon toan pho thong'),
-('Ly','Vat ly pho thong'),
-('Hoa','Hoa hoc pho thong'),
-('Tieng Anh','Tieng anh giao tiep');
+---------------------------------------------------------
+-- 4. CHÈN DỮ LIỆU MẪU (FULL DATA)
+---------------------------------------------------------
+
+-- 1. tai_khoan
+INSERT INTO [tai_khoan] (ho_ten, email, mat_khau_ma_hoa, vai_tro, trang_thai) VALUES
+(N'Lê Gia Sư 1', 'gs1@gmail.com', 'pwd1', 'GiaSu', 'Active'),
+(N'Nguyễn Học Viên 1', 'hv1@gmail.com', 'pwd2', 'HocVien', 'Active'),
+(N'Admin Hệ Thống', 'admin@gmail.com', 'pwd3', 'Admin', 'Active');
+
+-- 2. mon_hoc
+INSERT INTO [mon_hoc] (ten_mon, mo_ta) VALUES
+    (N'Toán học', N'Cấp 1, 2, 3'), (N'Tiếng Anh', N'Giao tiếp & Ielts'), (N'Lập trình', N'Java, Python');
+
+-- 3. gia_su
+INSERT INTO [gia_su] (ma_tai_khoan, nam_sinh, gioi_tinh, chuyen_nganh, truong_dai_hoc, so_nam_kinh_nghiem)
+VALUES (1, 1995, 'Nam', N'Sư phạm Toán', N'ĐH Sư Phạm', 5);
+
+-- 4. hoc_vien
+INSERT INTO [hoc_vien] (ma_tai_khoan, truong_hoc, dia_chi)
+VALUES (2, N'THPT Việt Đức', N'Hà Nội');
+
+-- 5. gia_su_mon_hoc
+INSERT INTO [gia_su_mon_hoc] (ma_gia_su, ma_mon, hoc_phi_moi_gio, trinh_do)
+VALUES (1, 1, 200000, N'Thạc sĩ');
+
+-- 6. yeu_cau_tim_gia_su
+INSERT INTO [yeu_cau_tim_gia_su] (ma_hoc_vien, ma_mon, ngan_sach_max, hinh_thuc, trinh_do, trang_thai)
+VALUES (1, 1, 250000, N'Trực tiếp', N'Sinh viên năm 4', N'Đang tìm');
+
+-- 7. ung_tuyen
+INSERT INTO [ung_tuyen] (ma_gia_su, ma_yeu_cau, muc_hoc_phi_de_xuat, loi_nhan, trang_thai)
+VALUES (1, 1, 220000, N'Tôi có kinh nghiệm dạy lớp 12', N'Chờ duyệt');
+
+-- 8. lop_hoc
+INSERT INTO [lop_hoc] (ma_gia_su, ma_hoc_vien, ma_mon, ma_yeu_cau, hoc_phi_thoa_thuan, tong_so_buoi, so_buoi_con_lai, trang_thai)
+VALUES (1, 1, 1, 1, 220000, 10, 10, 'Active');
+
+-- 9. buoi_hoc
+INSERT INTO [buoi_hoc] (ma_lop, so_gio_hoc, thoi_gian_bat_dau, trang_thai)
+VALUES (1, 2, '2026-04-01 18:00:00', 'Scheduled');
+
+-- 10. thanh_toan
+INSERT INTO [thanh_toan] (ma_lop, so_tien, phuong_thuc, trang_thai)
+VALUES (1, 2200000, N'Chuyển khoản', N'Đã thanh toán');
+
+-- 11. lich_su_giao_dich
+INSERT INTO [lich_su_giao_dich] (ma_thanh_toan, so_tien, loai)
+VALUES (1, 2200000, 'Income');
+
+-- 12. danh_gia
+INSERT INTO [danh_gia] (ma_lop, diem, nhan_xet)
+VALUES (1, 5, N'Gia sư dạy rất nhiệt tình');
+
+-- 13. thong_bao
+INSERT INTO [thong_bao] (ma_tai_khoan, noi_dung, loai)
+VALUES (1, N'Bạn có một yêu cầu dạy mới', 'System');
+
 GO
 
-INSERT INTO Gia_Su_Mon_Hoc (ma_gia_su, ma_mon, trinh_do, hoc_phi_moi_gio)
-VALUES
-(1,1,'Dai hoc',200000),
-(1,4,'Dai hoc',180000),
-(2,1,'Thac si',250000),
-(2,2,'Thac si',230000);
-GO
-
-INSERT INTO Yeu_Cau_Tim_Gia_Su 
-(ma_mon, ma_hoc_vien, trinh_do, lich_hoc_du_kien, hinh_thuc, dia_diem, ngan_sach_min, ngan_sach_max, trang_thai)
-VALUES
-(1,1,'Gia su sinh vien','T2 T4 T6','Hoc tai nha','Ha Noi',150000,250000,'Dang tim'),
-(4,2,'Gia su sinh vien','T3 T5','Online','Ha Noi',150000,200000,'Dang tim');
-GO
-
-INSERT INTO Ung_Tuyen 
-(ma_gia_su, ma_yeu_cau, loi_nhan, muc_hoc_phi_de_xuat, trang_thai)
-VALUES
-(1,1,'Em co kinh nghiem day lop 10',200000,'Cho duyet'),
-(2,1,'Da day 4 nam mon Toan',220000,'Cho duyet'),
-(1,2,'Day tieng anh giao tiep',180000,'Cho duyet');
-GO
-
-INSERT INTO Lop_Hoc
-(ma_hoc_vien, ma_gia_su, ma_mon, hoc_phi_thoa_thuan, ngay_bat_dau, trang_thai, ma_yeu_cau)
-VALUES
-(1,2,1,220000,'2026-03-01','Dang hoc',1),
-(2,1,4,180000,'2026-03-05','Dang hoc',2);
-GO
-
-INSERT INTO Buoi_Hoc
-(ma_lop, thoi_gian_bat_dau, thoi_gian_ket_thuc, so_gio_hoc, trang_thai)
-VALUES
-(1,'2026-03-02 18:00','2026-03-02 20:00',2,'Hoan thanh'),
-(1,'2026-03-04 18:00','2026-03-04 20:00',2,'Hoan thanh'),
-(2,'2026-03-06 19:00','2026-03-06 21:00',2,'Hoan thanh');
-GO
-
-INSERT INTO Thanh_Toan
-(ma_lop, so_tien, phuong_thuc, trang_thai)
-VALUES
-(1,440000,'Chuyen khoan','Da thanh toan'),
-(2,360000,'Tien mat','Da thanh toan');
-GO
-
-INSERT INTO Lich_Su_Giao_Dich
-(ma_thanh_toan, so_tien, loai)
-VALUES
-(1,440000,'Thanh toan hoc phi'),
-(2,360000,'Thanh toan hoc phi');
-GO
-
-INSERT INTO Danh_Gia
-(ma_lop, diem, nhan_xet)
-VALUES
-(1,5,'Gia su day rat de hieu'),
-(2,4,'Gia su nhiet tinh');
-GO
+-- Kiểm tra
+SELECT 'Thanh Cong!' as Status;
