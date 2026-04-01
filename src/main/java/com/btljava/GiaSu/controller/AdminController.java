@@ -36,4 +36,21 @@ public class AdminController {
         return ResponseEntity.ok(taiKhoanService.getAllHocVien());
     }
 
+    @GetMapping("/deleted")
+    public ResponseEntity<List<TaiKhoan>> getDeletedTaiKhoan() {
+        return ResponseEntity.ok(taiKhoanService.getDeletedTaiKhoan());
+    }
+
+    @PostMapping("/{id}/restore")
+    public ResponseEntity<String> restoreTaiKhoan(@PathVariable Integer id) {
+        taiKhoanService.restoreTaiKhoan(id);
+        return ResponseEntity.ok("Tài khoản đã được khôi phục thành công!");
+    }
+
+    @DeleteMapping("/{id}/permanent")
+    public ResponseEntity<String> forceDeleteTaiKhoan(@PathVariable Integer id) {
+        taiKhoanService.forceDeleteTaiKhoan(id);
+        return ResponseEntity.ok("Tài khoản đã được xóa vĩnh viễn!");
+    }
+
 }

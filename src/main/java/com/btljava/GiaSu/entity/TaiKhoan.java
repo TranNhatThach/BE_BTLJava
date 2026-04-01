@@ -48,4 +48,8 @@ public class TaiKhoan {
 
     @Column(name = "vi_tri", length = 225, columnDefinition = "nvarchar(225)")
     private String viTri;
+
+    @Column(name = "is_delete", nullable = false)
+    @Builder.Default
+    private Integer isDelete = 0; // 0: active, 1: deleted
 }
