@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,6 +28,11 @@ public class LopHocController {
     private final TaiKhoanRepository taiKhoanRepository;
     private final HocVienRepository hocVienRepository;
     private final GiaSuRepository giaSuRepository;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<LopHocDTO>> getAllLopHoc() {
+        return ResponseEntity.ok(lopHocService.getAllLopHoc());
+    }
 
     @GetMapping("/cua-toi")
     public ResponseEntity<?> getMyLopHoc(@RequestHeader("Authorization") String authHeader) {

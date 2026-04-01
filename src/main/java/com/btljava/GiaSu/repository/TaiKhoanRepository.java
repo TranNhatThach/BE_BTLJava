@@ -10,7 +10,9 @@ import java.util.Optional;
 @Repository
 public interface TaiKhoanRepository extends JpaRepository<TaiKhoan, Integer> {
 
-    List<TaiKhoan> findByVaiTro(String vaiTro);
+    List<TaiKhoan> findByVaiTroAndIsDelete(String vaiTro, Integer isDelete);
+
+    List<TaiKhoan> findByIsDelete(Integer isDelete);
 
     Optional<TaiKhoan> findByEmail(String email);
 

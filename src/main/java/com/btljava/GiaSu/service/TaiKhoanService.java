@@ -137,10 +137,28 @@ public class TaiKhoanService {
     }
 
     public List<TaiKhoan> getAllTaiKhoan() {
-        return taiKhoanRepository.findAll();
+        return taiKhoanRepository.findByIsDelete(0);
+    }
+
+    public List<TaiKhoan> getDeletedTaiKhoan() {
+        return taiKhoanRepository.findByIsDelete(1);
     }
 
     public void deleteTaiKhoan(Integer id) {
+        TaiKhoan tk = taiKhoanRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại với id: " + id));
+        tk.setIsDelete(1);
+        taiKhoanRepository.save(tk);
+    }
+
+    public void restoreTaiKhoan(Integer id) {
+        TaiKhoan tk = taiKhoanRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại với id: " + id));
+        tk.setIsDelete(0);
+        taiKhoanRepository.save(tk);
+    }
+
+    public void forceDeleteTaiKhoan(Integer id) {
         TaiKhoan tk = taiKhoanRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Tài khoản không tồn tại với id: " + id));
 
@@ -150,7 +168,6 @@ public class TaiKhoanService {
         if ("HOC_VIEN".equals(tk.getVaiTro())) {
             HocVien hv = hocVienRepository.findByTaiKhoan(tk);
             if (hv != null) {
-                // 1. Xóa lớp học TRƯỚC (vì lop_hoc tham chiếu tới yeu_cau)
                 List<LopHoc> lopHocList = lopHocRepository.findByHocVien(hv);
                 for (LopHoc lop : lopHocList) {
                     danhGiaRepository.deleteAll(danhGiaRepository.findByLopHoc(lop));
@@ -163,26 +180,26 @@ public class TaiKhoanService {
                 }
                 lopHocRepository.deleteAll(lopHocList);
 
-                // 2. Sau đó mới xóa yêu cầu và ứng tuyển
+
                 List<YeuCauTimGiaSu> yeuCauList = yeuCauRepository.findByHocVien(hv);
                 for (YeuCauTimGiaSu yc : yeuCauList) {
                     ungTuyenRepository.deleteAll(ungTuyenRepository.findByYeuCauTimGiaSu(yc));
                 }
                 yeuCauRepository.deleteAll(yeuCauList);
 
-                // 3. Cuối cùng xóa hoc vien
+
                 hocVienRepository.delete(hv);
             }
         } else if ("GIA_SU".equals(tk.getVaiTro())) {
             GiaSu gs = giaSuRepository.findByTaiKhoan(tk);
             if (gs != null) {
-                // Xóa môn học của gia sư
+
                 giaSuMonHocRepository.deleteAll(giaSuMonHocRepository.findByGiaSu(gs));
 
-                // Xóa ứng tuyển
+
                 ungTuyenRepository.deleteAll(ungTuyenRepository.findByGiaSu(gs));
 
-                // Xóa lớp học
+
                 List<LopHoc> lopHocList = lopHocRepository.findByGiaSu(gs);
 
                 for (LopHoc lop : lopHocList) {
@@ -204,11 +221,11 @@ public class TaiKhoanService {
     }
 
     public List<TaiKhoan> getAllGiaSu(){
-        return taiKhoanRepository.findByVaiTro("GIA_SU");
+        return taiKhoanRepository.findByVaiTroAndIsDelete("GIA_SU", 0);
     }
 
     public List<TaiKhoan> getAllHocVien() {
-        return taiKhoanRepository.findByVaiTro("HOC_VIEN");
+        return taiKhoanRepository.findByVaiTroAndIsDelete("HOC_VIEN", 0);
     }
 
 

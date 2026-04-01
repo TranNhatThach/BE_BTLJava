@@ -32,6 +32,11 @@ public class LopHocService {
     private final MonHocRepository monHocRepository;
     private final YeuCauTimGiaSuRepository yeuCauTimGiaSuRepository;
 
+    public List<LopHocDTO> getAllLopHoc() {
+        return lopHocRepository.findAll().stream()
+                .map(this::mapToDTO).collect(Collectors.toList());
+    }
+
     public List<LopHocDTO> getLopHocByHocVien(Integer maHocVien) {
         return lopHocRepository.findByHocVien_MaHocVien(maHocVien).stream()
                 .map(this::mapToDTO).collect(Collectors.toList());
