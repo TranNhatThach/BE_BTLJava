@@ -36,6 +36,7 @@ public class TaiKhoanService {
                     .hoTen(tk.getHoTen())
                     .soDienThoai(tk.getSoDienThoai())
                     .vaiTro(tk.getVaiTro())
+                    .avatar(tk.getAvatar())
                     .viTri(tk.getViTri());
 
             if (gs != null) {
@@ -68,6 +69,7 @@ public class TaiKhoanService {
                     .hoTen(tk.getHoTen())
                     .soDienThoai(tk.getSoDienThoai())
                     .vaiTro(tk.getVaiTro())
+                    .avatar(tk.getAvatar())
                     .viTri(tk.getViTri());
 
             if (hv != null) {
@@ -94,6 +96,9 @@ public class TaiKhoanService {
         }
         if (updated.getViTri() != null) {
             tk.setViTri(updated.getViTri());
+        }
+        if (updated.getAvatar() != null) {
+            tk.setAvatar(updated.getAvatar());
         }
         taiKhoanRepository.save(tk);
 

@@ -33,9 +33,13 @@ public class ChatHistoryController {
                 .id(String.valueOf(tn.getMaTinNhan()))
                 .from(tn.getSenderRole())
                 .text(tn.getNoiDung())
+                .type(tn.getFileType() != null && !tn.getFileType().isEmpty() ? tn.getFileType() : (tn.getNoiDung() == null || tn.getNoiDung().isEmpty() ? "FILE" : "CHAT"))
                 .time(tn.getNgayGui() != null ? tn.getNgayGui().format(TIME_FMT) : "")
                 .senderId(tn.getSenderId())
                 .senderName(tn.getSenderName())
+                .fileUrl(tn.getFileUrl())
+                .fileName(tn.getFileName())
+                .fileType(tn.getFileType())
                 .build()
         ).collect(Collectors.toList());
 
