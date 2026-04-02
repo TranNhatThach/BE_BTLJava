@@ -25,4 +25,5 @@ public class GiaSuResponse {
     private Double diemDanhGia;
     private Integer soHocVien;
     private String moTa;
+    private String avatar;
 }

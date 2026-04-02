@@ -29,5 +29,6 @@ public class TaiKhoanResponse {
     private String lopHoc;
     private String truongHoc;
     private String hinhThucHocUuTien;
+    private String avatar;
 
 }

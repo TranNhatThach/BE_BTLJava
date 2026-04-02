@@ -86,6 +86,7 @@ public class GiaSuService {
                     .diemDanhGia(avgRating)
                     .soHocVien(danhGias.size()) // Use total reviews instead of unique students, per user
                     .moTa(gs.getMoTa())
+                    .avatar(gs.getTaiKhoan().getAvatar())
                     .build();
         });
     }

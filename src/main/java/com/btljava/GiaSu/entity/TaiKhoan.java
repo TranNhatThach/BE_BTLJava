@@ -52,4 +52,7 @@ public class TaiKhoan {
     @Column(name = "is_delete", nullable = false)
     @Builder.Default
     private Integer isDelete = 0; // 0: active, 1: deleted
+
+    @Column(name = "avatar", columnDefinition = "nvarchar(max)")
+    private String avatar;
 }

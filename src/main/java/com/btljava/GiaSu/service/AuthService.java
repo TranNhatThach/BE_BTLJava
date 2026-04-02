@@ -114,6 +114,7 @@ public class AuthService {
                 .userId(relativeId)
                 .username(taiKhoan.getHoTen())
                 .role(taiKhoan.getVaiTro())
+                .avatar(taiKhoan.getAvatar())
                 .build();
     }
 }
