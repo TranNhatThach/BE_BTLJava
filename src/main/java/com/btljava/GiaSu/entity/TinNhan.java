@@ -37,6 +37,15 @@ public class TinNhan {
     @Column(name = "noi_dung", nullable = false, columnDefinition = "nvarchar(max)")
     private String noiDung;
 
+    @Column(name = "file_url", length = 1000)
+    private String fileUrl;
+
+    @Column(name = "file_name", length = 255)
+    private String fileName;
+
+    @Column(name = "file_type", length = 50)
+    private String fileType; // TYPE_CHAT, TYPE_IMAGE, TYPE_FILE
+
     @CreationTimestamp
     @Column(name = "ngay_gui", updatable = false)
     private LocalDateTime ngayGui;
