@@ -6,7 +6,7 @@ import com.btljava.GiaSu.dto.TuyenDungTrucTiepRequest;
 import com.btljava.GiaSu.entity.LopHoc;
 import com.btljava.GiaSu.entity.UngTuyen;
 import com.btljava.GiaSu.service.TuyenDungService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tuyen-dung")
-@CrossOrigin("*")
+@RequiredArgsConstructor
 public class TuyenDungController {
 
-    @Autowired
-    private TuyenDungService tuyenDungService;
+    private final TuyenDungService tuyenDungService;
 
     // Học viên gửi yêu cầu trực tiếp cho một gia sư cụ thể
     @PostMapping("/gui-loi-moi")

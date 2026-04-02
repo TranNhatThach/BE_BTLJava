@@ -2,7 +2,7 @@ package com.btljava.GiaSu.controller;
 
 import com.btljava.GiaSu.entity.TinNhan;
 import com.btljava.GiaSu.repository.TinNhanRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +12,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/chat")
-@CrossOrigin("*")
+@RequiredArgsConstructor
 public class ChatHistoryController {
 
-    @Autowired
-    private TinNhanRepository tinNhanRepository;
+    private final TinNhanRepository tinNhanRepository;
 
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm");
 

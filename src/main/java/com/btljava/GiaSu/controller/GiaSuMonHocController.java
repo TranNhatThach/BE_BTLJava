@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/gia-su-mon-hoc")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class GiaSuMonHocController {
 
     private final GiaSuMonHocService giaSuMonHocService;

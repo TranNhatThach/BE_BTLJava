@@ -20,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/api/ai")
-@CrossOrigin("*")
 @RequiredArgsConstructor
 public class AIProxyController {
 

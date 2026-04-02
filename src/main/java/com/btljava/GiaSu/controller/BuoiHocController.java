@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/buoi-hoc")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class BuoiHocController {
 
     private final BuoiHocService buoiHocService;

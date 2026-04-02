@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 @RestController
 @RequestMapping("/api/gia-su")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class LocGiaSuController {
 
     private final GiaSuService giaSuService;

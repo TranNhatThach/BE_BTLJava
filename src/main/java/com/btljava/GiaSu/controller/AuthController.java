@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AuthController {
 
     private final AuthService authService;
+
     @Valid
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -23,7 +23,7 @@ public class AuthController {
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(409).body(response);// cho nó hiện 409 cho dễ sau còn biết lúc đó lỗi chỗ nào
+            return ResponseEntity.status(409).body(response);
         }
     }
 
@@ -33,7 +33,7 @@ public class AuthController {
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body(response); // Unauthorized
+            return ResponseEntity.status(401).body(response);
         }
     }
 

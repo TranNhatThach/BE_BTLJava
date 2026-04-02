@@ -7,21 +7,17 @@ import com.btljava.GiaSu.dto.YeuCauTimGiaSuRequest;
 import com.btljava.GiaSu.repository.HocVienRepository;
 import com.btljava.GiaSu.repository.MonHocRepository;
 import com.btljava.GiaSu.repository.YeuCauTimGiaSuRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class YeuCauGiaSuService {
-    @Autowired
-    private YeuCauTimGiaSuRepository repo;
-
-    @Autowired
-    private HocVienRepository hocVienRepository;
-
-    @Autowired
-    private MonHocRepository monHocRepository;
+    private final YeuCauTimGiaSuRepository repo;
+    private final HocVienRepository hocVienRepository;
+    private final MonHocRepository monHocRepository;
 
     public YeuCauTimGiaSu luuBaiDang(YeuCauTimGiaSuRequest request) {
         HocVien hocVien = hocVienRepository.findById(request.getMaHocVien())

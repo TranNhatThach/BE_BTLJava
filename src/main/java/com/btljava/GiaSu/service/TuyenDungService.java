@@ -4,7 +4,7 @@ import com.btljava.GiaSu.dto.TuyenDungResponse;
 import com.btljava.GiaSu.dto.TuyenDungTrucTiepRequest;
 import com.btljava.GiaSu.entity.*;
 import com.btljava.GiaSu.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,28 +12,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TuyenDungService {
 
-        @Autowired
-        private YeuCauTimGiaSuRepository yeuCauRepository;
-
-        @Autowired
-        private UngTuyenRepository ungTuyenRepository;
-
-        @Autowired
-        private LopHocRepository lopHocRepository;
-
-        @Autowired
-        private GiaSuRepository giaSuRepository;
-
-        @Autowired
-        private HocVienRepository hocVienRepository;
-
-        @Autowired
-        private MonHocRepository monHocRepository;
-
-        @Autowired
-        private NotificationService notificationService;
+        private final YeuCauTimGiaSuRepository yeuCauRepository;
+        private final UngTuyenRepository ungTuyenRepository;
+        private final LopHocRepository lopHocRepository;
+        private final GiaSuRepository giaSuRepository;
+        private final HocVienRepository hocVienRepository;
+        private final MonHocRepository monHocRepository;
+        private final NotificationService notificationService;
 
         @Transactional
         public TuyenDungResponse<String> guiLoiMoiTrucTiep(TuyenDungTrucTiepRequest request) {

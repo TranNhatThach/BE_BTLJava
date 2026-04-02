@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/danh-gia")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class DanhGiaController {
 
     private final DanhGiaService danhGiaService;

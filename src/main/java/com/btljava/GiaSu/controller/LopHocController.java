@@ -20,7 +20,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/lop-hoc")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class LopHocController {
 
     private final LopHocService lopHocService;

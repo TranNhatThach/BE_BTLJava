@@ -5,20 +5,18 @@ import com.btljava.GiaSu.entity.YeuCauTimGiaSu;
 import com.btljava.GiaSu.dto.YeuCauTimGiaSuRequest;
 import com.btljava.GiaSu.repository.MonHocRepository;
 import com.btljava.GiaSu.service.YeuCauGiaSuService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*") // fe gọi api ma ko bi chan
+@RequiredArgsConstructor
 public class YeuCauGiaSuController {
 
-    @Autowired
-    private YeuCauGiaSuService yeuCauService;
-    @Autowired
-    private MonHocRepository monHocRepository;
+    private final YeuCauGiaSuService yeuCauService;
+    private final MonHocRepository monHocRepository;
 
     @GetMapping("/mon-hoc")
     public List<MonHoc> findAll() {

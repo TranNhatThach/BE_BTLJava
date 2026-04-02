@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/tai-khoan")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class TaiKhoanController {
 
     private final TaiKhoanService taiKhoanService;
