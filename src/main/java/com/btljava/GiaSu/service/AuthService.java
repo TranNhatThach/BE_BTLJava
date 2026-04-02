@@ -117,4 +117,53 @@ public class AuthService {
                 .avatar(taiKhoan.getAvatar())
                 .build();
     }
+
+    public AuthResponse socialLogin(com.btljava.GiaSu.dto.SocialLoginRequest request) {
+        Optional<TaiKhoan> existing = taiKhoanRepository.findByEmail(request.getEmail());
+        TaiKhoan taiKhoan;
+
+        if (existing.isPresent()) {
+            taiKhoan = existing.get();
+        } else {
+            taiKhoan = TaiKhoan.builder()
+                    .email(request.getEmail())
+                    .hoTen(request.getName())
+                    .avatar(request.getAvatar())
+                    .vaiTro(request.getRole())
+                    .trangThai("HOAT_DONG")
+                    .matKhauMaHoa(passwordEncoder.encode("GOOGLE_OAUTH_ACCOUNT"))
+                    .isDelete(0)
+                    .build();
+            taiKhoan = taiKhoanRepository.save(taiKhoan);
+
+            if ("GIA_SU".equals(request.getRole())) {
+                GiaSu giaSu = GiaSu.builder().taiKhoan(taiKhoan).build();
+                giaSuRepository.save(giaSu);
+            } else {
+                HocVien hocVien = HocVien.builder().taiKhoan(taiKhoan).build();
+                hocVienRepository.save(hocVien);
+            }
+        }
+
+        Integer relativeId = null;
+        if ("GIA_SU".equals(taiKhoan.getVaiTro())) {
+            GiaSu giaSu = giaSuRepository.findByTaiKhoan_MaTaiKhoan(taiKhoan.getMaTaiKhoan()).get();
+            relativeId = giaSu.getMaGiaSu();
+        } else {
+            HocVien hocVien = hocVienRepository.findByTaiKhoan_MaTaiKhoan(taiKhoan.getMaTaiKhoan()).get();
+            relativeId = hocVien.getMaHocVien();
+        }
+
+        String token = jwtService.generateToken(taiKhoan);
+
+        return AuthResponse.builder()
+                .message("Social Login success")
+                .success(true)
+                .token(token)
+                .userId(relativeId)
+                .username(taiKhoan.getHoTen())
+                .role(taiKhoan.getVaiTro())
+                .avatar(taiKhoan.getAvatar())
+                .build();
+    }
 }

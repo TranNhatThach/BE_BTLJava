@@ -25,12 +25,10 @@ public class ChatController {
 
     @MessageMapping("/chat/{roomId}")
     public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
-        // Mặc định phòng public
         if (roomId == null || roomId.trim().isEmpty()) {
             roomId = "public";
         }
 
-        // Lưu tin nhắn vào database
         TinNhan tinNhan = TinNhan.builder()
                 .roomId(roomId)
                 .senderId(chatMessage.getSenderId())
@@ -43,11 +41,9 @@ public class ChatController {
                 .build();
         TinNhan saved = tinNhanRepository.save(tinNhan);
 
-        // Gán ID từ DB cho message trả về để tránh trùng lặp
         chatMessage.setId(String.valueOf(saved.getMaTinNhan()));
         chatMessage.setTime(saved.getNgayGui() != null ? saved.getNgayGui().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")) : "");
 
-        // Gửi tin nhắn đến topic riêng của phòng chat
         messagingTemplate.convertAndSend("/topic/chat/" + roomId, chatMessage);
     }
 
@@ -57,15 +53,15 @@ public class ChatController {
     @Builder
     public static class ChatMessage {
         private String id;
-        private String from; // CHAT, JOIN, LEAVE
+        private String from;
         private String text;
         private String time;
         private Integer senderId;
         private String senderName;
-        private String type; // Tương thích với FE cũ (CHAT, JOIN, LEAVE)
+        private String type;
         
         private String fileUrl;
         private String fileName;
-        private String fileType; // IMAGE, FILE
+        private String fileType;
     }
 }

@@ -36,4 +36,10 @@ public class AuthController {
             return ResponseEntity.status(401).body(response); // Unauthorized
         }
     }
+
+    @PostMapping("/social-login")
+    public ResponseEntity<AuthResponse> socialLogin(@RequestBody com.btljava.GiaSu.dto.SocialLoginRequest request) {
+        AuthResponse response = authService.socialLogin(request);
+        return ResponseEntity.ok(response);
+    }
 }

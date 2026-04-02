@@ -20,28 +20,23 @@ public class ChatHistoryController {
 
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm");
 
-    /**
-     * Lấy lịch sử chat của một phòng chat theo roomId
-     * GET /api/chat/history/{roomId}
-     */
     @GetMapping("/history/{roomId}")
     public ResponseEntity<List<ChatController.ChatMessage>> getHistory(@PathVariable String roomId) {
         List<TinNhan> messages = tinNhanRepository.findByRoomIdOrderByNgayGuiAsc(roomId);
 
-        List<ChatController.ChatMessage> result = messages.stream().map(tn -> 
-            ChatController.ChatMessage.builder()
+        List<ChatController.ChatMessage> result = messages.stream().map(tn -> ChatController.ChatMessage.builder()
                 .id(String.valueOf(tn.getMaTinNhan()))
                 .from(tn.getSenderRole())
                 .text(tn.getNoiDung())
-                .type(tn.getFileType() != null && !tn.getFileType().isEmpty() ? tn.getFileType() : (tn.getNoiDung() == null || tn.getNoiDung().isEmpty() ? "FILE" : "CHAT"))
+                .type(tn.getFileType() != null && !tn.getFileType().isEmpty() ? tn.getFileType()
+                        : (tn.getNoiDung() == null || tn.getNoiDung().isEmpty() ? "FILE" : "CHAT"))
                 .time(tn.getNgayGui() != null ? tn.getNgayGui().format(TIME_FMT) : "")
                 .senderId(tn.getSenderId())
                 .senderName(tn.getSenderName())
                 .fileUrl(tn.getFileUrl())
                 .fileName(tn.getFileName())
                 .fileType(tn.getFileType())
-                .build()
-        ).collect(Collectors.toList());
+                .build()).collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
     }

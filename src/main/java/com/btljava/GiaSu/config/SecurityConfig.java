@@ -15,14 +15,17 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Value("${spring.web.cors.allowed-origins}")
     private List<String> allowedOrigins;
+
+    private final OAuth2SuccessHandler oauth2SuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,7 +38,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll());
+                        .anyRequest().permitAll())
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oauth2SuccessHandler));
         return http.build();
     }
 
