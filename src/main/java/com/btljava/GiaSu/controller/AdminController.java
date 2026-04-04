@@ -1,6 +1,6 @@
 package com.btljava.GiaSu.controller;
 
-import com.btljava.GiaSu.entity.TaiKhoan;
+import com.btljava.GiaSu.dto.TaiKhoanResponse;
 import com.btljava.GiaSu.service.TaiKhoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class AdminController {
     private final TaiKhoanService taiKhoanService;
 
     @GetMapping("/show")
-    public List<TaiKhoan> findAll() {
+    public List<TaiKhoanResponse> findAll() {
         return taiKhoanService.getAllTaiKhoan();
     }
 
@@ -26,17 +26,17 @@ public class AdminController {
     }
 
     @GetMapping("/gia-su")
-    public ResponseEntity<List<TaiKhoan>> getAllGiaSu() {
+    public ResponseEntity<List<TaiKhoanResponse>> getAllGiaSu() {
         return ResponseEntity.ok(taiKhoanService.getAllGiaSu());
     }
 
     @GetMapping("/hoc-vien")
-    public ResponseEntity<List<TaiKhoan>> getAllHocVien() {
+    public ResponseEntity<List<TaiKhoanResponse>> getAllHocVien() {
         return ResponseEntity.ok(taiKhoanService.getAllHocVien());
     }
 
     @GetMapping("/deleted")
-    public ResponseEntity<List<TaiKhoan>> getDeletedTaiKhoan() {
+    public ResponseEntity<List<TaiKhoanResponse>> getDeletedTaiKhoan() {
         return ResponseEntity.ok(taiKhoanService.getDeletedTaiKhoan());
     }
 

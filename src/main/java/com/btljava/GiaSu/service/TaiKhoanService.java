@@ -27,61 +27,7 @@ public class TaiKhoanService {
     public TaiKhoanResponse getById(Integer id) {
         TaiKhoan tk = taiKhoanRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản"));
-        if ("GIA_SU".equals(tk.getVaiTro())) {
-            GiaSu gs = giaSuRepository.findByTaiKhoan(tk);
-
-            TaiKhoanResponse.TaiKhoanResponseBuilder builder = TaiKhoanResponse.builder()
-                    .maTaiKhoan(tk.getMaTaiKhoan())
-                    .email(tk.getEmail())
-                    .hoTen(tk.getHoTen())
-                    .soDienThoai(tk.getSoDienThoai())
-                    .vaiTro(tk.getVaiTro())
-                    .avatar(tk.getAvatar())
-                    .viTri(tk.getViTri());
-
-            if (gs != null) {
-                // Lấy đánh giá của gia sư hiện tại
-                java.util.List<DanhGia> danhGias = danhGiaRepository.findByLopHoc_GiaSu_MaGiaSu(gs.getMaGiaSu());
-                Double avgRating = danhGias.stream()
-                        .mapToInt(DanhGia::getDiem)
-                        .average()
-                        .orElse(0.0);
-                avgRating = Math.round(avgRating * 10) / 10.0;
-
-                builder.gioiTinh(gs.getGioiTinh())
-                        .truongDaiHoc(gs.getTruongDaiHoc())
-                        .chuyenNganh(gs.getChuyenNganh())
-                        .namSinh(gs.getNamSinh())
-                        .soNamKinhNghiem(gs.getSoNamKinhNghiem())
-                        .diemDanhGia(avgRating)
-                        .soDanhGia(danhGias.size())
-                        .moTa(gs.getMoTa());
-            }
-
-            return builder.build();
-        }
-        if ("HOC_VIEN".equals(tk.getVaiTro())) {
-            HocVien hv = hocVienRepository.findByTaiKhoan(tk);
-
-            TaiKhoanResponse.TaiKhoanResponseBuilder builder = TaiKhoanResponse.builder()
-                    .maTaiKhoan(tk.getMaTaiKhoan())
-                    .email(tk.getEmail())
-                    .hoTen(tk.getHoTen())
-                    .soDienThoai(tk.getSoDienThoai())
-                    .vaiTro(tk.getVaiTro())
-                    .avatar(tk.getAvatar())
-                    .viTri(tk.getViTri());
-
-            if (hv != null) {
-                builder.lopHoc(hv.getLopHoc())
-                        .truongHoc(hv.getTruongHoc())
-                        .hinhThucHocUuTien(hv.getHinhThucHocUuTien())
-                        .moTa(hv.getGhiChu());
-            }
-
-            return builder.build();
-        }
-        return null;
+        return mapToResponse(tk);
     }
 
     public TaiKhoanResponse updateTaiKhoan(Integer id, TaiKhoanResponse updated) {
@@ -141,12 +87,16 @@ public class TaiKhoanService {
         return getById(id);
     }
 
-    public List<TaiKhoan> getAllTaiKhoan() {
-        return taiKhoanRepository.findByIsDelete(0);
+    public List<TaiKhoanResponse> getAllTaiKhoan() {
+        return taiKhoanRepository.findByIsDelete(0).stream()
+                .map(this::mapToResponse)
+                .collect(java.util.stream.Collectors.toList());
     }
 
-    public List<TaiKhoan> getDeletedTaiKhoan() {
-        return taiKhoanRepository.findByIsDelete(1);
+    public List<TaiKhoanResponse> getDeletedTaiKhoan() {
+        return taiKhoanRepository.findByIsDelete(1).stream()
+                .map(this::mapToResponse)
+                .collect(java.util.stream.Collectors.toList());
     }
 
     public void deleteTaiKhoan(Integer id) {
@@ -225,12 +175,57 @@ public class TaiKhoanService {
         taiKhoanRepository.delete(tk);
     }
 
-    public List<TaiKhoan> getAllGiaSu(){
-        return taiKhoanRepository.findByVaiTroAndIsDelete("GIA_SU", 0);
+    public List<TaiKhoanResponse> getAllGiaSu() {
+        return taiKhoanRepository.findByVaiTroAndIsDelete("GIA_SU", 0).stream()
+                .map(this::mapToResponse)
+                .collect(java.util.stream.Collectors.toList());
     }
 
-    public List<TaiKhoan> getAllHocVien() {
-        return taiKhoanRepository.findByVaiTroAndIsDelete("HOC_VIEN", 0);
+    public List<TaiKhoanResponse> getAllHocVien() {
+        return taiKhoanRepository.findByVaiTroAndIsDelete("HOC_VIEN", 0).stream()
+                .map(this::mapToResponse)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    private TaiKhoanResponse mapToResponse(TaiKhoan tk) {
+        TaiKhoanResponse.TaiKhoanResponseBuilder builder = TaiKhoanResponse.builder()
+                .maTaiKhoan(tk.getMaTaiKhoan())
+                .email(tk.getEmail())
+                .hoTen(tk.getHoTen())
+                .soDienThoai(tk.getSoDienThoai())
+                .vaiTro(tk.getVaiTro())
+                .avatar(tk.getAvatar())
+                .viTri(tk.getViTri());
+
+        if ("GIA_SU".equals(tk.getVaiTro())) {
+            GiaSu gs = giaSuRepository.findByTaiKhoan(tk);
+            if (gs != null) {
+                java.util.List<DanhGia> danhGias = danhGiaRepository.findByLopHoc_GiaSu_MaGiaSu(gs.getMaGiaSu());
+                Double avgRating = danhGias.stream()
+                        .mapToInt(DanhGia::getDiem)
+                        .average()
+                        .orElse(0.0);
+                avgRating = Math.round(avgRating * 10) / 10.0;
+
+                builder.gioiTinh(gs.getGioiTinh())
+                        .truongDaiHoc(gs.getTruongDaiHoc())
+                        .chuyenNganh(gs.getChuyenNganh())
+                        .namSinh(gs.getNamSinh())
+                        .soNamKinhNghiem(gs.getSoNamKinhNghiem())
+                        .diemDanhGia(avgRating)
+                        .soDanhGia(danhGias.size())
+                        .moTa(gs.getMoTa());
+            }
+        } else if ("HOC_VIEN".equals(tk.getVaiTro())) {
+            HocVien hv = hocVienRepository.findByTaiKhoan(tk);
+            if (hv != null) {
+                builder.lopHoc(hv.getLopHoc())
+                        .truongHoc(hv.getTruongHoc())
+                        .hinhThucHocUuTien(hv.getHinhThucHocUuTien())
+                        .moTa(hv.getGhiChu());
+            }
+        }
+        return builder.build();
     }
 
 
