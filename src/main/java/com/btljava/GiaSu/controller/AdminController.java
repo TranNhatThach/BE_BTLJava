@@ -1,5 +1,6 @@
 package com.btljava.GiaSu.controller;
 
+import com.btljava.GiaSu.dto.AuthResponse;
 import com.btljava.GiaSu.dto.TaiKhoanResponse;
 import com.btljava.GiaSu.service.TaiKhoanService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,18 @@ public class AdminController {
         return taiKhoanService.getAllTaiKhoan();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TaiKhoanResponse> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(taiKhoanService.getById(id));
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTaiKhoan(@PathVariable Integer id) {
+    public ResponseEntity<AuthResponse> deleteTaiKhoan(@PathVariable Integer id) {
         taiKhoanService.deleteTaiKhoan(id);
-        return ResponseEntity.ok("Tài khoản đã được xóa thành công!");
+        return ResponseEntity.ok(AuthResponse.builder()
+                .message("Tài khoản đã được xóa thành công!")
+                .success(true)
+                .build());
     }
 
     @GetMapping("/gia-su")
@@ -41,15 +50,21 @@ public class AdminController {
     }
 
     @PostMapping("/{id}/restore")
-    public ResponseEntity<String> restoreTaiKhoan(@PathVariable Integer id) {
+    public ResponseEntity<AuthResponse> restoreTaiKhoan(@PathVariable Integer id) {
         taiKhoanService.restoreTaiKhoan(id);
-        return ResponseEntity.ok("Tài khoản đã được khôi phục thành công!");
+        return ResponseEntity.ok(AuthResponse.builder()
+                .message("Tài khoản đã được khôi phục thành công!")
+                .success(true)
+                .build());
     }
 
     @DeleteMapping("/{id}/permanent")
-    public ResponseEntity<String> forceDeleteTaiKhoan(@PathVariable Integer id) {
+    public ResponseEntity<AuthResponse> forceDeleteTaiKhoan(@PathVariable Integer id) {
         taiKhoanService.forceDeleteTaiKhoan(id);
-        return ResponseEntity.ok("Tài khoản đã được xóa vĩnh viễn!");
+        return ResponseEntity.ok(AuthResponse.builder()
+                .message("Tài khoản đã được xóa vĩnh viễn!")
+                .success(true)
+                .build());
     }
 
 }
